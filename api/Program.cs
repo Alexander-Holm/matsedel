@@ -9,22 +9,23 @@ builder.Services.AddDbContext<DataContext>(opt =>
     string? databaseUri;
     if (builder.Environment.IsDevelopment())
     {
-        // Hämtar från secrets.json som sätts lokalt i Visual Studio
+        // Hï¿½mtar frï¿½n secrets.json som sï¿½tts lokalt i Visual Studio
         databaseUri = builder.Configuration[connectionName];
     }
     else
     {
-        // Environment variable sätts på render.com
+        // Environment variable sï¿½tts pï¿½ render.com
         databaseUri = Environment.GetEnvironmentVariable(connectionName);
         if (databaseUri is null) throw new KeyNotFoundException("Could not find connection string in environment variable");
     }
     string connectionString = ElephantSql.ConvertToConnectionString(databaseUri);
     opt.UseNpgsql(connectionString);
-    // Namn i databasen använder snake_case men Models använder PascalCase.
-    // Entity Framework konverterar namnen på class och properties när den använder databasen.
+    // Namn i databasen anvï¿½nder snake_case men Models anvï¿½nder PascalCase.
+    // Entity Framework konverterar namnen pï¿½ class och properties nï¿½r den anvï¿½nder databasen.
     opt.UseSnakeCaseNamingConvention();
 });
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,11 +39,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
+app.UseCors(); // MÃ¥ste ligga efter app.UseHttpsRedirection() och innan app.UseAuthorization()
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
