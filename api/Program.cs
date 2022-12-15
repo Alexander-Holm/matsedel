@@ -40,7 +40,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
-app.UseCors(); // Måste ligga efter app.UseHttpsRedirection() och innan app.UseAuthorization()
+// UseCors måste ligga efter UseHttpsRedirection() och innan UseAuthorization()
+app.UseCors(options => {
+    options.AllowAnyHeader();
+    options.AllowAnyMethod();
+    options.AllowAnyOrigin();
+}); 
 app.UseAuthorization();
 app.MapControllers();
 
