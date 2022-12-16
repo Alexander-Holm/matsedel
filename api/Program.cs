@@ -1,5 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using api;
+using HtmlAgilityPack;
+
+string url = "https://www.koket.se/pasta-salsiccia-classico";
+HtmlWeb web = new HtmlWeb();
+HtmlDocument htmlDoc = web.Load(url);
+var h1 = htmlDoc.DocumentNode.SelectSingleNode("//title");
+System.Diagnostics.Debug.WriteLine(h1.InnerHtml);
 
 var builder = WebApplication.CreateBuilder(args);
 
