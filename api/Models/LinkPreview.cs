@@ -2,11 +2,13 @@
 
 namespace api.Models
 {
+    // Open Graph meta data
+    // https://ogp.me/
     public class LinkPreview
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string ImageUrl { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? ImageUrl { get; set; }
 
         public LinkPreview(HtmlDocument htmlDocument)
         {
@@ -15,29 +17,45 @@ namespace api.Models
             ImageUrl = GetImage(htmlDocument);
         }
 
-        private string GetTitle(HtmlDocument doc)
+        private string? GetTitle(HtmlDocument doc)
         {
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("//meta[@name='og:title']");
-            // fallbacks            
-            node ??= doc.DocumentNode.Descendants("h1").First(); // h1 har bättre titel än head/title på koket.se
-            node ??= doc.DocumentNode.SelectSingleNode("//title");
-            string title = node.InnerHtml;
+            string? title = GetOpenGraphProperty("title", doc);
+            if(title == null)
+            {
+                // fallbacks 
+                HtmlNode node = doc.DocumentNode.Descendants("h1").First(); // h1 har bättre titel än head/title på koket.se
+                node ??= doc.DocumentNode.SelectSingleNode("//title");
+                title = node?.InnerHtml; // Både <h1> och <title> använder InnerHtml
+            }
             return title;
         }
-        private string GetDescription(HtmlDocument doc)
+        private string? GetDescription(HtmlDocument doc)
         {
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("//meta[@name='og:description']");
-            node ??= doc.DocumentNode.SelectSingleNode("//meta[@name='description']");
-            string description = node.Attributes["content"].Value;
+            string? description = GetOpenGraphProperty("description", doc);
+            if(description == null)
+            {
+                HtmlNode node = doc.DocumentNode.SelectSingleNode("//meta[@name='description']");
+                description = node?.Attributes["content"].Value;
+            }
             return description;
         }
-        private string GetImage(HtmlDocument doc)
+        private string? GetImage(HtmlDocument doc)
         {
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("//meta[@name='og:image']");
-            node ??= doc.DocumentNode.SelectSingleNode("//link[@type='image/jpeg']"); // koket.se
-            string imageUrl = node.Attributes["href"].Value;
+            string? imageUrl = GetOpenGraphProperty("image", doc);
+            if(imageUrl == null)
+            {
+                HtmlNode node = doc.DocumentNode.SelectSingleNode("//link[@type='image/jpeg']"); // koket.se
+                imageUrl = node?.GetAttributeValue("href", null);
+            }
             return imageUrl;
         }
-    }
 
+        private string? GetOpenGraphProperty(string property, HtmlDocument htmlDocument)
+        {
+            HtmlNode node = htmlDocument.DocumentNode.SelectSingleNode($"//meta[@name='og:{property}']");
+            node ??= htmlDocument.DocumentNode.SelectSingleNode($"//meta[@property='og:{property}']");
+            string? value = node?.GetAttributeValue("content", "");
+            return value;
+        }
+    }
 }
