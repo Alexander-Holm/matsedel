@@ -20,15 +20,3 @@ export class Week{
         }
     }
 }
-
-export async function fetchWeeks(){
-    const apiUrl = "https://matsedel-api.onrender.com/api/weeks";
-    const res = await fetch(apiUrl);
-    const weeksFromAPi = await res.json() as WeekDto[];
-    const weeks: Week[] = [];
-    // Konverterar alla Week och Recipe till rätt format
-    for (const dto of weeksFromAPi) {
-        weeks.push(new Week(dto));
-    }
-    return weeks;
-}
