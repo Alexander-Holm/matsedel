@@ -19,34 +19,32 @@ namespace api.Models
 
         private string? GetTitle(HtmlDocument doc)
         {
-            string? title = GetOpenGraphProperty("title", doc);
-            if(title == null)
-            {
-                // fallbacks 
-                HtmlNode node = doc.DocumentNode.Descendants("h1").First(); // h1 har bättre titel än head/title på koket.se
-                node ??= doc.DocumentNode.SelectSingleNode("//title");
-                title = node?.InnerHtml; // Både <h1> och <title> använder InnerHtml
-            }
+            // Använder h1 istället för og:title.
+            // De flesta sidorna lägger till sitt namn efter titeln i og:title,
+            // t.ex: Namn På Recept | Hemsida.com
+            string? title = doc.DocumentNode.Descendants("h1").First().InnerText;
+            // Fallbacks
+            title ??= GetOpenGraphProperty("title", doc);
+            title ??= doc.DocumentNode.SelectSingleNode("//title").InnerText;
             return title;
         }
         private string? GetDescription(HtmlDocument doc)
         {
             string? description = GetOpenGraphProperty("description", doc);
-            if(description == null)
+            // Fallbacks
+            if (description == null)
             {
                 HtmlNode node = doc.DocumentNode.SelectSingleNode("//meta[@name='description']");
-                description = node?.Attributes["content"].Value;
+                description = node?.GetAttributeValue("content", "");
             }
             return description;
         }
         private string? GetImage(HtmlDocument doc)
         {
+            // Inga fallbacks
+            // Det går att loopa genoma alla bilder och gissa vilken som hör till receptet,
+            // men det är bättre med ingen bild än fel bild.
             string? imageUrl = GetOpenGraphProperty("image", doc);
-            if(imageUrl == null)
-            {
-                HtmlNode node = doc.DocumentNode.SelectSingleNode("//link[@type='image/jpeg']"); // koket.se
-                imageUrl = node?.GetAttributeValue("href", null);
-            }
             return imageUrl;
         }
 
