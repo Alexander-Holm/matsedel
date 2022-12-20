@@ -19,8 +19,8 @@
 
     onMount(async () => {
         // weeks uppdateras varje gång store från Api ändras
-        const unsubscribe = Api.subscribe(store => weeks = store)
-        await Api.weeks.getAll();
+        const unsubscribe = Api.subscribe(store => weeks = store);
+        if(weeks == null) await Api.weeks.getAll();
         isLoading = false;
         await loadPreviews();
         return unsubscribe;
@@ -32,13 +32,14 @@
         if(week == null) return;
 
         const apiCalls = [];
-        // recipes arrayen kan ha flera index som är null
-        const recipes = week.recipes.filter(recipe => recipe != null);
-        for (const recipe of recipes) {
+        // recipes arrayen kan ha flera index som är null.
+        // Har ett recept redan preview behöver det inte hämtas igen.
+        const recipesWithoutPreview = week.recipes.filter(recipe => recipe?.linkPreview == null);
+        for (const recipe of recipesWithoutPreview) {
             const promise = Api.linkPreview.get(recipe);
             apiCalls.push(promise);
-        }
-        await Promise.all(apiCalls);
+        }        
+        await Promise.all(apiCalls);    
 
         const nextWeek = weeks[i + 1]
         if(nextWeek != null)

@@ -6,13 +6,13 @@
     // const { title, description, imageUrl } = recipe.linkPreview || {};
 </script>
 
-<button class="recipe-preview" class:loading={recipe.linkPreview == null}>
+<a href={`/recept/${recipe.id}`} class="recipe-preview" class:loading={recipe.linkPreview == null}>
     <img src={recipe.linkPreview?.imageUrl} alt="" />
     <div class="text-container">
         <h3 class="title">{recipe.linkPreview?.title}</h3>
         <p class="description">{recipe.linkPreview?.description}</p>
     </div>
-</button>
+</a>
 
 <style>
     .recipe-preview{
