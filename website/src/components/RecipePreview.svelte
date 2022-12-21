@@ -2,14 +2,12 @@
     import type { Recipe } from "src/models/Recipe";
 
     export let recipe: Recipe;
-    // const { id, notes } = recipe;
-    // const { title, description, imageUrl } = recipe.linkPreview || {};
 </script>
 
 <a href={`/recept/${recipe.id}`} class="recipe-preview" class:loading={recipe.linkPreview == null}>
     <img src={recipe.linkPreview?.imageUrl} alt="" />
     <div class="text-container">
-        <h3 class="title">{recipe.linkPreview?.title}</h3>
+        <h4 class="title">{recipe.linkPreview?.title}</h4>
         <p class="description">{recipe.linkPreview?.description}</p>
     </div>
 </a>
