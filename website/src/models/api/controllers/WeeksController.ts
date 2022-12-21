@@ -10,18 +10,37 @@ export class WeeksController extends Controller{
         for (const dto of weeksFromAPi) {
             weeks.push(new Week(dto));
         };
+        // Nyast week ska ligga först.
+        weeks.reverse();
         this._store.set(weeks);
     }
     async add(name: string){
+        const method = "POST";
         const url = this._apiUrl + "?name=" + name;
-        const res = await fetch(url, {method: "POST"});
+        const res = await fetch(url, {method});
         const newWeek = await res.json();
-        this._store.update(weeks => weeks = [...weeks, newWeek]);
+        // Lägg ny week på första plats i arrayen.
+        this._store.update(weeks => weeks = [newWeek, ...weeks]);
     }
     async delete(id: number){
-        const res = await fetch(this._apiUrl + id, {method:"DELETE"});
+        const method = "DELETE";
+        const res = await fetch(this._apiUrl + id, {method});
         this._store.update(weeks => weeks = weeks.filter(w => w.id !== id) );
+    }    
+    async rename(id: number, newName: string){
+        const method = "PUT";
+        const payload = { id, name: newName};
+        const options = { 
+            method, 
+            body: JSON.stringify(payload),
+            headers: { "content-type": "application/json" }
+        };
+        const res = await fetch(this._apiUrl + id, options);
+        this._store.update(weeks => {
+            const week = weeks.find(w => w.id == id);
+            if(week != null) 
+                week.name = newName;
+            return weeks;
+        })
     }
-    // Konvertera till DTO?
-    //async update(id: number, week: Week)
 }

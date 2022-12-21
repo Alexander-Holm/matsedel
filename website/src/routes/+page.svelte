@@ -45,6 +45,36 @@
         if(nextWeek != null)
             loadPreviews(i + 1);
     }
+
+    async function addWeek(){
+        const weekName = prompt("Namn på vecka");
+        if(weekName !== null)
+            await Api.weeks.add(weekName);
+    }
+    async function editWeek(week: Week){
+        const newName = prompt("Nytt namn");
+        if(newName != null){
+            await Api.weeks.rename(week.id, newName);
+        }
+    }
+    async function deleteWeek(week: Week){
+        let shouldDelete = true;
+        let hasRecipes = false;
+        for (const recipe of week.recipes) {
+            if(recipe != null){
+                hasRecipes = true;
+                break;
+            }
+        }
+        if(hasRecipes){
+            const message = 
+                "Vill du ta bort den här veckan?\n"+
+                "Alla recept som hör till den här veckan kommer också att tas bort."
+            shouldDelete = confirm(message);
+        }
+        if(shouldDelete) 
+            await Api.weeks.delete(week.id);
+    }
     
 </script>
 
@@ -53,11 +83,14 @@
     {#if isLoading}
         <p>Laddar</p>
     {:else}
-    <button on:click={() => Api.weeks.add("Add från hemsida")} >+ Week</button>    
+    <button on:click={addWeek} >+ Week</button>    
     {#each weeks as week}
         <div>
-            <h2>{week.name}</h2>
-            <button on:click={() => Api.weeks.delete(week.id)}>Delete</button>
+            <div class="week-header">
+                <h2>{week.name}</h2>
+                <button on:click={() => editWeek(week)}>Edit</button>
+                <button on:click={() => deleteWeek(week)}>Delete</button>
+            </div>
             <div>
                 {#each Days as day, index}
                     <div>
