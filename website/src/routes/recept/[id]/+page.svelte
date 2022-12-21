@@ -6,12 +6,12 @@
     import { onMount } from 'svelte';
 
     let error = false;
-    let recipe: Recipe | undefined;
+    let recipe: Recipe | null;
 
     onMount(async () => {
         const id = Number($page.params.id);
         recipe = await Api.recipes.getById(id);
-        if(recipe == null) error = true; // Error            
+        if(recipe == null) error = true;      
     })
 </script>
 
