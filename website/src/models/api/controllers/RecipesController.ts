@@ -3,6 +3,8 @@ import { get } from "svelte/store";
 import { Recipe, type RecipeDto } from "../../Recipe";
 import { Api } from "../Api";
 
+// OBS. uppdaterar inte store,
+// lägg till senare om det behövs
 export class RecipesController extends Controller{
     // Hämtar receptet från store om det finns där,
     // annars hämtar med fetch()
@@ -14,6 +16,15 @@ export class RecipesController extends Controller{
             await Api.linkPreview.get(recipe);
         
         return recipe;
+    }
+    async add(recipeDto: RecipeDto){
+        const method = "POST";
+        const options = {
+            method,
+            body: JSON.stringify(recipeDto),
+            headers: { "content-type": "application/json" }
+        }
+        const res = await fetch(this._apiUrl, options);
     }
 
     #findRecipeInStore(id: number){

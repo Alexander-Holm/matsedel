@@ -88,7 +88,7 @@
                     </div>                       
                 </div>
             {/each}
-            <button>+ Recept</button>
+            <a href={`recept/ny?vecka=${week.id}`}>+ Recept</a>
         </div>
     </div>
     {/each}
