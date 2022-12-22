@@ -6,11 +6,11 @@
     import { Api } from "../models/api/Api";
 
     let isLoading = true;
-    let weeks: Week[];
+    let weeks: Week[];    
 
     onMount(async () => {
         // weeks uppdateras varje gång store från Api ändras
-        const unsubscribe = Api.subscribe(store => weeks = store);
+        const unsubscribe = Api.subscribe(store => weeks = store);       
         if(weeks == null) await Api.weeks.getAll();
         isLoading = false;
         await loadPreviews();
@@ -78,7 +78,7 @@
             <button on:click={() => deleteWeek(week)}>Delete</button>
         </div>
         <div class="week-recipes">
-            {#each week.days as day}
+            {#each week.days.sort((a, b) => a.key - b.key) as day}
                 <div class="day">
                     <h3>{Days[day.key]}</h3>
                     <div class="day-recipes">
