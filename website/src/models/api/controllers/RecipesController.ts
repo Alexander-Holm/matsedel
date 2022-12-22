@@ -2,6 +2,7 @@ import { Controller } from "./Controller";
 import { get } from "svelte/store";
 import { Recipe, type RecipeDto } from "../../Recipe";
 import { Api } from "../Api";
+import type { Week } from "src/models/Week";
 
 // OBS. uppdaterar inte store,
 // lägg till senare om det behövs
@@ -25,6 +26,22 @@ export class RecipesController extends Controller{
             headers: { "content-type": "application/json" }
         }
         const res = await fetch(this._apiUrl, options);
+    }
+    async delete(id: number){
+        const method = "DELETE";
+        const res = await fetch(this._apiUrl + id, {method});
+        this._store.update(weeks => {
+            for (const week of weeks) {
+                for (const day of week.days) {
+                    const index = day.recipes.findIndex(recipe => recipe.id == id);
+                    if(index !== -1){
+                        day.recipes.splice(index, 1);
+                        return weeks;
+                    }
+                }
+            }
+            return weeks;
+        })
     }
 
     #findRecipeInStore(id: number){

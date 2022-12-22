@@ -4,6 +4,7 @@
     import type { Recipe } from "src/models/Recipe";
     import { Api } from 'src/models/api/Api';
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
 
     let error = false;
     let recipe: Recipe | null;
@@ -13,6 +14,15 @@
         recipe = await Api.recipes.getById(id);
         if(recipe == null) error = true;      
     })
+
+    async function clickDelete(){
+        if(recipe?.id == null) return;
+        const confirmDelete = confirm("Vill du ta bort det här receptet?");
+        if(confirmDelete){
+            await Api.recipes.delete(recipe.id);
+            goto("/");
+        }
+    }
 </script>
 
 
@@ -33,6 +43,7 @@
         </div>        
     {/if}
     <p class="description">{recipe.linkPreview?.description}</p>
+    <button on:click={clickDelete}>Ta bort</button>
 </article>
 {/if}
 
