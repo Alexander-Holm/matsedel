@@ -33,9 +33,14 @@ export class RecipesController extends Controller{
         this._store.update(weeks => {
             for (const week of weeks) {
                 for (const day of week.days) {
-                    const index = day.recipes.findIndex(recipe => recipe.id == id);
+                    let index = day.recipes.findIndex(recipe => recipe.id == id);
                     if(index !== -1){
                         day.recipes.splice(index, 1);
+                        // Ta bort dagen om den inte längre har några recept
+                        if(day.recipes.length < 1){
+                            index = week.days.findIndex(d => d.key == day.key);
+                            week.days.splice(index, 1);
+                        }
                         return weeks;
                     }
                 }
