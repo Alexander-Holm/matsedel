@@ -18,7 +18,8 @@ export class WeeksController extends Controller{
         const method = "POST";
         const url = this._apiUrl + "?name=" + name;
         const res = await fetch(url, {method});
-        const newWeek = await res.json();
+        const data = await res.json() as WeekDto;
+        const newWeek = new Week(data);
         // Lägg ny week på första plats i arrayen.
         this._store.update(weeks => weeks = [newWeek, ...weeks]);
     }
