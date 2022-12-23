@@ -4,7 +4,8 @@
     import RecipePreview from "../components/RecipePreview.svelte";
     import { onMount } from "svelte";
     import { Api } from "../models/api/Api";
-    import DayHeading from "src/components/DayHeading.svelte";
+    import DayHeading from "src/components/DayHeader.svelte";
+    import WeekHeader from "src/components/WeekHeader.svelte";
 
     let isLoading = true;
     let weeks: Week[];    
@@ -42,26 +43,7 @@
         const weekName = prompt("Namn på vecka");
         if(weekName !== null)
             await Api.weeks.add(weekName);
-    }
-    async function editWeek(week: Week){
-        const newName = prompt("Nytt namn", week.name);
-        if(newName != null){
-            await Api.weeks.rename(week.id, newName);
-        }
-    }
-    async function deleteWeek(week: Week){
-        let shouldDelete = true;
-        // Måste bekräfta för att ta bort om veckan har recept
-        if(week.days.length > 0){
-            const message = 
-                "Vill du ta bort den här veckan?\n"+
-                "Alla recept som hör till den här veckan kommer också att tas bort."
-            shouldDelete = confirm(message);
-        }
-        if(shouldDelete) 
-            await Api.weeks.delete(week.id);
-    }
-    
+    }    
 </script>
 
 <main>
@@ -73,11 +55,7 @@
     <button on:click={addWeek} >+ Vecka</button>    
     {#each weeks as week}
     <div class="week">
-        <div class="week-header">
-            <h2>{week.name}</h2>
-            <button on:click={() => editWeek(week)}>Edit</button>
-            <button on:click={() => deleteWeek(week)}>Delete</button>
-        </div>
+        <WeekHeader week={week} />
         <div class="week-content">
             {#each week.days.sort((a, b) => a.key - b.key) as day}
                 <div class="day">
@@ -97,17 +75,7 @@
     {/if}
 </main>
 
-<style>    
-    .week-header{
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-    .week-header h2{
-        font-family: "Fugaz One";
-        margin-right: auto;
-    }
-
+<style>
     .week-content{
         display: grid;
         grid-template-columns: auto 1fr;

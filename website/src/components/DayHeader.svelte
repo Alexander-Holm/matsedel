@@ -1,7 +1,7 @@
 <script lang="ts">
     export let title: string;
 </script>
-<div class="day-heading">
+<div class="day-header">
     <span class="decoration">
         <span class="dot" />
     </span>
@@ -9,18 +9,17 @@
 </div>
 
 <style>
-    .day-heading{
+    .day-header{
         grid-column: 1;
         display: flex;
     }
     .decoration{
-        --color: rgb(230, 71, 23);
         display: block;
         height: auto;
         width: 2px;
         /* rem istället för px för att följa mitten av h3 som har font-size i rem */
         margin-top: 0.5rem;
-        background-color: var(--color);
+        background-color: var(--clr-accent);
         /* Rundar slutet av linjen */
         border-radius: 20px;
     }
@@ -30,7 +29,7 @@
         position: relative;
         left: -4px;
         border-radius: 50%;
-        background: var(--color);
+        background: var(--clr-accent);
     }
     h3{
         font-family: "Fugaz One";
