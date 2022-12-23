@@ -1,4 +1,13 @@
-html, body{
+@font-face{
+    font-family: "Fugaz One";
+    src: url("fonts/FugazOne-Regular.ttf");
+}
+@font-face{
+    font-family: "Courgette";
+    src: url("fonts/Courgette-Regular.ttf");
+}
+
+html, body{    
     margin: 0;
     padding: 0;
 }

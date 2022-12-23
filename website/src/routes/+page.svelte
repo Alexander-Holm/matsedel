@@ -4,6 +4,7 @@
     import RecipePreview from "../components/RecipePreview.svelte";
     import { onMount } from "svelte";
     import { Api } from "../models/api/Api";
+    import DayHeading from "src/components/DayHeading.svelte";
 
     let isLoading = true;
     let weeks: Week[];    
@@ -71,16 +72,16 @@
 
     <button on:click={addWeek} >+ Vecka</button>    
     {#each weeks as week}
-    <div>
+    <div class="week">
         <div class="week-header">
             <h2>{week.name}</h2>
             <button on:click={() => editWeek(week)}>Edit</button>
             <button on:click={() => deleteWeek(week)}>Delete</button>
         </div>
-        <div class="week-recipes">
+        <div class="week-content">
             {#each week.days.sort((a, b) => a.key - b.key) as day}
                 <div class="day">
-                    <h3>{Days[day.key]}</h3>
+                    <DayHeading title={Days[day.key]} />
                     <div class="day-recipes">
                         {#each day.recipes as recipe}
                             <RecipePreview recipe={recipe} />                        
@@ -96,27 +97,24 @@
     {/if}
 </main>
 
-<style>
+<style>    
     .week-header{
         display: flex;
         align-items: center;
         gap: 20px;
     }
     .week-header h2{
+        font-family: "Fugaz One";
         margin-right: auto;
     }
 
-    .week-recipes{
+    .week-content{
         display: grid;
         grid-template-columns: auto 1fr;
         gap: 2rem;
     }
     .day{
         display: contents;
-    }
-    h3{
-        grid-column: 1;
-        background-color: lightblue;
     }
     .day-recipes{
         grid-column: 2;
