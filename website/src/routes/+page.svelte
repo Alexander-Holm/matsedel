@@ -118,6 +118,8 @@
     }
     .day-recipes{
         grid-column: 2;
-        background-color: lightpink;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
     }
 </style>
