@@ -13,11 +13,6 @@
 </a>
 
 <style>
-    @font-face{
-        font-family: "Merienda";
-        src: url("fonts/Merienda-VariableFont_wght.ttf");
-    }
-
     .recipe-preview{
         --image-size: 6rem;        
         height: 8rem;
