@@ -1,12 +1,12 @@
 export type RecipeDto = {
-    id: number,
+    id?: number,
     url: string,
     notes?: string,
     day: number,
     weekId: number,
 }
 export class Recipe {
-    id: number;
+    id?: number;
     url: string;
     notes?: string;
     linkPreview?: LinkPreview;
