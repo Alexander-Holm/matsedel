@@ -17,7 +17,7 @@
         font-family: "Merienda";
         src: url("fonts/Merienda-VariableFont_wght.ttf");
     }
-    
+
     .recipe-preview{
         --image-size: 6rem;        
         height: 8rem;
@@ -42,6 +42,7 @@
     .text-container{
         display: flex;
         flex-direction: column;
+        justify-content: space-evenly;
         gap: 6px;
     }
     .title{
