@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Api } from "src/models/api/Api";
     import type { Week } from "src/models/Week";
+    import Edit from "../icons/edit.svelte";
+    import Delete from "../icons/delete.svelte";
 
     export let week: Week;
 
@@ -25,43 +27,38 @@
 </script>
 
 <div class="week-header">
-    <div class="title">
-        <span class="decoration" />
-        <h2>{week.name}</h2>
-        <span class="decoration" />
-    </div>
-    <button on:click={editWeek}>Edit</button>
-    <button on:click={deleteWeek}>Delete</button>
+    <h2>Vecka {week.name}</h2>
+    <button class="edit" on:click={editWeek}><Edit/> </button>
+    <button class="delete" on:click={deleteWeek}><Delete/></button>
 </div>
 
 <style>
     .week-header{
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 40px;
+        background-color: var(--clr-accent);
+        padding: 10px 20px;
+        border-radius: 4px;
     }
-    .week-header h2{
+    h2{
         font-family: "Fugaz One";
         font-weight: 500;
         font-size: 1.7rem;
+        color: white;
     }
-    .title{
+    button{
+        height: 2.2rem;
+        width: 2.2rem;
+        padding: 6px;
+        /* flex för att centrera ikonen */
         display: flex;
-        gap: 8px;
-        margin-block: 30px;
+        background-color: transparent;
+        fill: white;        
+        border: 0;
     }
-    .decoration{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 3px;
+    .delete{
+        padding-left: 8px;
+        margin-left: auto;
     }
-        .decoration::before, .decoration::after{
-            content: "";
-            width: 1.6rem;
-            /* height i rem ger olika storlek på linjerna när decimaltalen rundas av */
-            height: 3px;
-            background-color: var(--clr-accent);
-        }
-
 </style>

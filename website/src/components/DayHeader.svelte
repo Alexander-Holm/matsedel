@@ -12,6 +12,7 @@
     .day-header{
         grid-column: 1;
         display: flex;
+        gap: 20px;
     }
     .decoration{
         display: block;
@@ -34,7 +35,6 @@
     h3{
         font-family: "Fugaz One";
         font-weight: 400;
-        margin: 0;
-        padding-left: 12px;        
+        margin: 0;   
     }
 </style>

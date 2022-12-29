@@ -11,7 +11,7 @@
     padding: 0;
 }
 :root{
-    --clr-accent: rgb(230, 71, 23);
+    --clr-accent: #a61631;
 }
 body{
     padding: 50px;

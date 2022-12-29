@@ -4,7 +4,7 @@
     import RecipePreview from "../components/RecipePreview.svelte";
     import { onMount } from "svelte";
     import { Api } from "../models/api/Api";
-    import DayHeading from "src/components/DayHeader.svelte";
+    import DayHeader from "src/components/DayHeader.svelte";
     import WeekHeader from "src/components/WeekHeader.svelte";
 
     let isLoading = true;
@@ -59,7 +59,7 @@
         <div class="week-content">
             {#each week.days.sort((a, b) => a.key - b.key) as day}
                 <div class="day">
-                    <DayHeading title={Days[day.key]} />
+                    <DayHeader title={Days[day.key]} />
                     <div class="day-recipes">
                         {#each day.recipes as recipe}
                             <RecipePreview recipe={recipe} />                        
@@ -79,7 +79,9 @@
     .week-content{
         display: grid;
         grid-template-columns: auto 1fr;
-        gap: 2rem;
+        column-gap: 20px;
+        row-gap: 30px;
+        padding: 30px;
     }
     .day{
         display: contents;
@@ -89,5 +91,6 @@
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
+        padding-block: 10px;
     }
 </style>
