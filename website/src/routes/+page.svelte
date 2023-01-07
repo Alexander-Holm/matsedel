@@ -6,6 +6,8 @@
     import { Api } from "../models/api/Api";
     import DayHeader from "src/components/DayHeader.svelte";
     import WeekHeader from "src/components/WeekHeader.svelte";
+    import Logo from "../components/Logo.svelte"
+    import LoadingScreen from "src/components/LoadingScreen.svelte";
 
     let isLoading = true;
     let weeks: Week[];    
@@ -46,42 +48,68 @@
     }    
 </script>
 
+{#if isLoading}
+<LoadingScreen />
+
+{:else}
+<header class="grid-header">
+    <Logo /> 
+    <button class="add-week button-big" on:click={addWeek}>Ny vecka</button>
+</header>
+
 <main>
-    <h1>Matsedel</h1>
     {#if isLoading}
         <p>Laddar</p>
     {:else}
-
-    <button on:click={addWeek} >+ Vecka</button>    
-    {#each weeks as week}
-    <div class="week">
-        <WeekHeader week={week} />
-        <div class="week-content">
-            {#each week.days.sort((a, b) => a.key - b.key) as day}
-                <div class="day">
-                    <DayHeader title={Days[day.key]} />
-                    <div class="day-recipes">
-                        {#each day.recipes as recipe}
-                            <RecipePreview recipe={recipe} />                        
-                        {/each}
-                    </div>                       
-                </div>
-            {/each}
-            <a href={`recept/ny?vecka=${week.id}`}>+ Recept</a>
-        </div>
-    </div>
-    {/each}
+        {#each weeks as week}
+        <article class="week">
+            <WeekHeader week={week} />
+            <div class="week-content">
+                {#each week.days.sort((a, b) => a.key - b.key) as day}
+                    <div class="day">
+                        <DayHeader title={Days[day.key]} />
+                        <div class="day-recipes">
+                            {#each day.recipes as recipe}
+                                <RecipePreview recipe={recipe} />                        
+                            {/each}
+                        </div>                       
+                    </div>
+                {/each}
+                <a class="add-recipe button-big" href={`recept/ny?vecka=${week.id}`}>Lägg till recept</a>
+            </div>
+        </article>
+        {/each}
 
     {/if}
 </main>
+{/if}
 
 <style>
+    main{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        /* För att flex items inte ska sträckas till samma height som bredvidliggande items */
+        align-items: start;
+        row-gap: 140px;
+        column-gap: 60px;
+    }
+    .add-week{
+        margin-left: 30px;
+        white-space: nowrap;
+    }
+    .week{
+        border-radius: 4px;
+        box-shadow: 0 0 20px #a2a2a2;
+        overflow: hidden;
+    }
     .week-content{
         display: grid;
         grid-template-columns: auto 1fr;
         column-gap: 20px;
         row-gap: 30px;
         padding: 30px;
+        padding-right: 40px;
     }
     .day{
         display: contents;
@@ -92,5 +120,9 @@
         flex-wrap: wrap;
         gap: 14px;
         padding-block: 10px;
+    }
+    .add-recipe{
+        grid-column: 1/3;
+        margin: 30px auto;
     }
 </style>

@@ -1,30 +1,45 @@
 <script lang="ts">
     import type { Recipe } from "src/models/Recipe";
+    import NotesIcon from "../icons/message.svelte";
 
     export let recipe: Recipe;
 </script>
 
-<a href={`/recept/${recipe.id}`} class="recipe-preview" class:loading={recipe.linkPreview == null}>
-    <img src={recipe.linkPreview?.imageUrl} alt="" />
-    <div class="text-container">
-        <h4 class="title limit-text-lines">{recipe.linkPreview?.title}</h4>
-        <p class="description limit-text-lines">{recipe.linkPreview?.description}</p>
-    </div>
-</a>
+<article class="recipe-preview">
+    
+    <a href={`/recept/${recipe.id}`} class="card" class:loading={recipe.linkPreview == null}>
+        <img src={recipe.linkPreview?.imageUrl} alt="" />
+        <div class="text-container">
+            <h4 class="title limit-text-lines">{recipe.linkPreview?.title}</h4>
+            <p class="description limit-text-lines">{recipe.linkPreview?.description}</p>
+        </div>
+    </a>
+
+    {#if recipe.notes}
+        <div class="notes">
+            <NotesIcon />
+            <span>{recipe.notes}</span>
+        </div>        
+    {/if}
+
+</article>
 
 <style>
     .recipe-preview{
-        --image-size: 6rem;        
-        height: 8rem;
         width: 16rem;
-        background-color: #ffeee9;
+    }
+    .card{
+        height: 8rem;
+        background-color: hsl(0, 0%, 98%);
+        box-shadow: 0 0 4px #7b7b7b;        
 
         display: flex;
         gap: 10px;
         text-decoration: none;
-        color: black;        
+        color: black;
+
     }
-        .recipe-preview.loading{
+        .card.loading{
             background-color: coral;
         }
 
@@ -59,6 +74,23 @@
         -webkit-line-clamp: var(--text-lines);
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+
+    .notes{        
+        height: 2em;
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.8rem;
+
+        stroke: var(--black);
+        stroke-width: 1.5;
+    }
+    .notes span{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
 </style>

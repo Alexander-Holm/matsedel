@@ -12,7 +12,37 @@
 }
 :root{
     --clr-accent: #a61631;
+    --color-primary: #6f3145;
+    --color-light: #f4edea;
+    --color-light-2: #fffcf3;
+    --color-text: #2b2b2b;
+    --black: #2b2b2b;
 }
 body{
-    padding: 50px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px;
+    padding-bottom: 120px;
+    font-family: "Merienda";
+}
+.grid-header{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-items: center;
+    height: 4rem;
+    margin-bottom: 50px;
+}
+.button-big{
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #e84655, #ff5867);
+    box-shadow: 0 2px #731d25;
+    border: 0;
+    border-radius: 4px;
 }
