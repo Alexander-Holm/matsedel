@@ -91,7 +91,7 @@
         justify-content: space-evenly;
         /* För att flex items inte ska sträckas till samma height som bredvidliggande items */
         align-items: start;
-        row-gap: 140px;
+        row-gap: 100px;
         column-gap: 60px;
     }
     .add-week{
