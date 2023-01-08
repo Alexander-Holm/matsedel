@@ -1,18 +1,27 @@
 <script lang="ts">
     import { page } from '$app/stores';
-
     import type { Recipe } from "src/models/Recipe";
     import { Api } from 'src/models/api/Api';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    import NoteIcon from 'src/icons/message.svelte';
+    import Delete from 'src/icons/delete.svelte';
+    import Logo from 'src/components/Logo.svelte';
+    import ExternalLink from 'src/icons/external-link.svelte';
 
     let error = false;
     let recipe: Recipe | null;
+    let domain: string;
 
     onMount(async () => {
         const id = Number($page.params.id);
         recipe = await Api.recipes.getById(id);
-        if(recipe == null) error = true;      
+        if(recipe == null) 
+            error = true;
+        else {
+            const url = new URL(recipe.url);
+            domain = url.hostname;
+        }
     })
 
     async function clickDelete(){
@@ -26,24 +35,32 @@
 </script>
 
 
+
 {#if recipe}
-<article>
-    <div class="links">
-        <a href="/">Tillbaka</a>
-        <a href={recipe.url}>Öppna recept</a>
-    </div>
+<article>    
+    <header class="grid-header">
+        <a href="/" class="button-big" >Tillbaka</a>
+        <Logo />
+        <a href={recipe.url} class="open-recipe button-big" >
+            <span>
+                Öppna recept
+                <ExternalLink />
+            </span>
+            <span class="domain">{domain}</span>
+        </a>
+    </header>
     <h2>{recipe.linkPreview?.title}</h2>
     <img src={recipe.linkPreview?.imageUrl} alt="" />
     {#if recipe.notes}
         <div class="notes">
-            [icon]
+            <NoteIcon />
             <p>
                 {recipe.notes}
             </p>
         </div>        
     {/if}
     <p class="description">{recipe.linkPreview?.description}</p>
-    <button on:click={clickDelete}>Ta bort</button>
+    <button on:click={clickDelete}>Ta bort <Delete /></button>
 </article>
 {/if}
 
@@ -52,29 +69,15 @@
 {/if}
 
 <style>
-    article{
-        padding: 30px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        max-width: 1200px;
+    .open-recipe{
+        position: relative;
     }
-    /* grid */
-    h2, .notes, .description{
-        grid-column: 1;
-    }
-
-    
-    .links{
-        display: flex;
-        justify-content: space-between;
-        grid-row: 1;
-        grid-column: 1 / 3;
-    }
-    a{
-        border: 1px solid darkgreen;
-        background-color: greenyellow;
-        color: white;
-        text-decoration: none;
+    .domain{
+        position: absolute;
+        bottom: -1.3rem;
+        left: 0; right: 0;
+        color: gray;
+        font-size: 0.7rem;
     }
     img{
         width: 100%;
