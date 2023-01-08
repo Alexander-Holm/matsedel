@@ -18,11 +18,21 @@
     --color-text: #2b2b2b;
     --black: #2b2b2b;
 }
+html{
+    height: 100%;
+    width: 100%;
+}
 body{
+    min-height: 100%;
+    box-sizing: border-box;
     max-width: 1100px;
     margin: auto;
+
+    display: flex;
+    flex-direction: column;
     padding: 40px;
     padding-bottom: 120px;
+
     font-family: "Merienda";
 }
 .grid-header{
