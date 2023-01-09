@@ -95,7 +95,7 @@
         white-space: nowrap;
     }
     .week{
-        border-radius: 4px;
+        border-radius: var(--border-radius);
         box-shadow: 0 0 20px #a2a2a2;
         overflow: hidden;
     }

@@ -87,7 +87,7 @@
         border: 2px solid;
         outline: 2px solid;
         outline-offset: -2px;
-        border-radius: 4px;
+        border-radius: var(--border-radius);
         font-size: 1rem;
         padding: 12px;
         margin: 20px;
