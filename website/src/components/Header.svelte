@@ -26,7 +26,7 @@
         align-items: center;
         justify-items: center;
         gap: 20px;
-        margin-bottom: 50px;
+        margin-bottom: 100px;
     }
     .logo{
         grid-column: 2;

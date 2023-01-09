@@ -78,9 +78,6 @@
 {/if}
 
 <style>
-    article{
-        margin-top: 50px;
-    }
     .open-recipe{
         position: relative;        
     }

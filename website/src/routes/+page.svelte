@@ -89,6 +89,7 @@
         align-items: start;
         row-gap: 100px;
         column-gap: 60px;
+        margin-top: -50px;
     }
     .add-week{
         margin-left: 30px;
