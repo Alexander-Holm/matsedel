@@ -7,6 +7,7 @@
     import WeekHeader from "src/components/WeekHeader.svelte";
     import LoadingScreen from "src/components/LoadingScreen.svelte";
     import Header from "src/components/Header.svelte";
+    import { scale } from "svelte/transition";
 
     let isLoading = true;
     let weeks: Week[];    
@@ -58,8 +59,8 @@
 </Header>
 
 <main>
-    {#each weeks as week}
-    <article class="week">
+    {#each weeks as week, index}
+    <article class="week" in:scale={{delay: index * 200, duration: 500}} >
         <WeekHeader week={week} />
         <div class="week-content">
             {#each week.days.sort((a, b) => a.key - b.key) as day}
