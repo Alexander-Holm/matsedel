@@ -4,13 +4,13 @@
     import { Api } from 'src/models/api/Api';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
-    import { fade, fly } from "svelte/transition";
+    import { fade } from "svelte/transition";
     // Icons
     import NoteIcon from 'src/icons/message.svelte';
     import Delete from 'src/icons/delete.svelte';
-    import Logo from 'src/components/Logo.svelte';
     import ExternalLink from 'src/icons/external-link.svelte';
     import Edit from 'src/icons/edit.svelte';
+    import Header from 'src/components/Header.svelte';
 
     let error = false;
     let recipe: Recipe | null;
@@ -40,16 +40,14 @@
 
 
 {#if recipe}
-<header class="grid-header">
-    <a href="/" class="button-secondary" in:fly={{x: -200}}>Tillbaka</a>
-    <Logo />
-    <a href={recipe.url} class="open-recipe icon-button button-primary" in:fly={{x: 200}}>
+<Header backUrl="/" >
+    <a href={recipe.url} class="open-recipe icon-button button-primary">
         <span class="text">Öppna recept</span>
         <span class="icon"><ExternalLink /></span>
         <!-- position: absolute -->
         <span class="domain">{domain}</span>
     </a>
-</header>
+</Header>
 <article in:fade>    
     <h2>{recipe.linkPreview?.title}</h2>
     {#if recipe.notes}
@@ -62,7 +60,7 @@
     <p class="description">{recipe.linkPreview?.description}</p>
     <div class="buttons">
         <!-- REDIGERA SIDAN EJ KLAR -->
-        <a href="/" class="icon-button button-secondary">
+        <a href="#" class="icon-button button-secondary">
             <span class="text">Redigera</span>
             <span class="icon"><Edit /></span>
         </a>
@@ -75,12 +73,13 @@
 {/if}
 
 {#if error}
+    <Header backUrl="/" />
     <p>Hittar inte receptet du försöker nå</p>
 {/if}
 
 <style>
-    header{
-        margin-bottom: 100px;
+    article{
+        margin-top: 50px;
     }
     .open-recipe{
         position: relative;        

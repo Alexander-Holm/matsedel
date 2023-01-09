@@ -1,7 +1,6 @@
 <script lang="ts">
     import lottie from "lottie-web"
     import { onMount } from "svelte";
-    import Logo from "./Logo.svelte";
     import animation from "../icons/preparing-food.json"
 
 
@@ -29,9 +28,6 @@
     })
 </script>
 
-<header>    
-    <Logo /> 
-</header>
 <main>
     <span bind:this={animationContainer} id="loading-animation" />
     <h2 class="scale-in" class:show={animationStarted} >Laddar recept</h2>

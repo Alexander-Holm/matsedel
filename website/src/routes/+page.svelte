@@ -1,13 +1,12 @@
 <script lang="ts">
     import { Days, type Week } from "../models/Week";
-    import * as Fakedata from "../fakedata"
     import RecipePreview from "../components/RecipePreview.svelte";
     import { onMount } from "svelte";
     import { Api } from "../models/api/Api";
     import DayHeader from "src/components/DayHeader.svelte";
     import WeekHeader from "src/components/WeekHeader.svelte";
-    import Logo from "../components/Logo.svelte"
     import LoadingScreen from "src/components/LoadingScreen.svelte";
+    import Header from "src/components/Header.svelte";
 
     let isLoading = true;
     let weeks: Week[];    
@@ -48,39 +47,35 @@
     }    
 </script>
 
+
 {#if isLoading}
+<Header />
 <LoadingScreen />
 
 {:else}
-<header class="grid-header">
-    <Logo /> 
-    <button class="add-week button-primary" on:click={addWeek}>Ny vecka</button>
-</header>
+<Header >
+    <button class="add-week button-primary" on:click={addWeek} >Ny vecka</button>
+</Header>
 
 <main>
-    {#if isLoading}
-        <p>Laddar</p>
-    {:else}
-        {#each weeks as week}
-        <article class="week">
-            <WeekHeader week={week} />
-            <div class="week-content">
-                {#each week.days.sort((a, b) => a.key - b.key) as day}
-                    <div class="day">
-                        <DayHeader title={Days[day.key]} />
-                        <div class="day-recipes">
-                            {#each day.recipes as recipe}
-                                <RecipePreview recipe={recipe} />                        
-                            {/each}
-                        </div>                       
-                    </div>
-                {/each}
-                <a class="add-recipe button-primary" href={`recept/ny?vecka=${week.id}`}>Lägg till recept</a>
+    {#each weeks as week}
+    <article class="week">
+        <WeekHeader week={week} />
+        <div class="week-content">
+            {#each week.days.sort((a, b) => a.key - b.key) as day}
+            <div class="day">
+                <DayHeader title={Days[day.key]} />
+                <div class="day-recipes">
+                    {#each day.recipes as recipe}
+                        <RecipePreview recipe={recipe} />                        
+                    {/each}
+                </div>                       
             </div>
-        </article>
-        {/each}
-
-    {/if}
+            {/each}
+            <a class="add-recipe button-primary" href={`recept/ny?vecka=${week.id}`}>Lägg till recept</a>
+        </div>
+    </article>
+    {/each}
 </main>
 {/if}
 
