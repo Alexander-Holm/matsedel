@@ -1,8 +1,4 @@
 @font-face{
-    font-family: "Fugaz One";
-    src: url("fonts/FugazOne-Regular.ttf");
-}
-@font-face{
     font-family: "Merienda";
     src: url("fonts/Merienda-VariableFont_wght.ttf");
 }
@@ -11,11 +7,6 @@
     padding: 0;
 }
 :root{
-    --clr-accent: #a61631;
-    --color-primary: #6f3145;
-    --color-light: #f4edea;
-    --color-light-2: #fffcf3;
-    --color-text: #2b2b2b;
     --black: #2b2b2b;
 }
 html{
@@ -35,15 +26,6 @@ body{
 
     font-family: "Merienda";
 }
-.grid-header{
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    justify-items: center;
-    gap: 10px;
-    margin-bottom: 50px;
-}
-
 
 .button-primary, .button-secondary{
     font-family: inherit;
