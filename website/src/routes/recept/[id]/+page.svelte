@@ -1,18 +1,30 @@
 <script lang="ts">
     import { page } from '$app/stores';
-
     import type { Recipe } from "src/models/Recipe";
     import { Api } from 'src/models/api/Api';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    import { fade, fly } from "svelte/transition";
+    // Icons
+    import NoteIcon from 'src/icons/message.svelte';
+    import Delete from 'src/icons/delete.svelte';
+    import Logo from 'src/components/Logo.svelte';
+    import ExternalLink from 'src/icons/external-link.svelte';
+    import Edit from 'src/icons/edit.svelte';
 
     let error = false;
     let recipe: Recipe | null;
+    let domain: string;
 
     onMount(async () => {
         const id = Number($page.params.id);
         recipe = await Api.recipes.getById(id);
-        if(recipe == null) error = true;      
+        if(recipe == null) 
+            error = true;
+        else {
+            const url = new URL(recipe.url);
+            domain = url.hostname;
+        }
     })
 
     async function clickDelete(){
@@ -26,24 +38,39 @@
 </script>
 
 
+
 {#if recipe}
-<article>
-    <div class="links">
-        <a href="/">Tillbaka</a>
-        <a href={recipe.url}>Öppna recept</a>
-    </div>
+<header class="grid-header">
+    <a href="/" class="button-secondary" in:fly={{x: -200}}>Tillbaka</a>
+    <Logo />
+    <a href={recipe.url} class="open-recipe icon-button button-primary" in:fly={{x: 200}}>
+        <span class="text">Öppna recept</span>
+        <span class="icon"><ExternalLink /></span>
+        <!-- position: absolute -->
+        <span class="domain">{domain}</span>
+    </a>
+</header>
+<article in:fade>    
     <h2>{recipe.linkPreview?.title}</h2>
-    <img src={recipe.linkPreview?.imageUrl} alt="" />
     {#if recipe.notes}
         <div class="notes">
-            [icon]
-            <p>
-                {recipe.notes}
-            </p>
+            <span class="icon"><NoteIcon /></span>            
+            <p>{recipe.notes}</p>
         </div>        
     {/if}
+    <img src={recipe.linkPreview?.imageUrl} alt="" />
     <p class="description">{recipe.linkPreview?.description}</p>
-    <button on:click={clickDelete}>Ta bort</button>
+    <div class="buttons">
+        <!-- REDIGERA SIDAN EJ KLAR -->
+        <a href="/" class="icon-button button-secondary">
+            <span class="text">Redigera</span>
+            <span class="icon"><Edit /></span>
+        </a>
+        <button on:click={clickDelete} class="icon-button button-secondary">
+            <span class="text">Ta bort</span>
+            <span class="icon"><Delete /></span>
+        </button>
+    </div>
 </article>
 {/if}
 
@@ -52,39 +79,67 @@
 {/if}
 
 <style>
-    article{
-        padding: 30px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        max-width: 1200px;
+    header{
+        margin-bottom: 100px;
     }
-    /* grid */
-    h2, .notes, .description{
-        grid-column: 1;
+    .open-recipe{
+        position: relative;        
+    }
+    .icon-button{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-right: 14px;
+    }
+    .icon{
+        display: inline-block;
+        height: 1.5rem;
+        /* 
+            Måste vara min-width.
+            Med vanlig width kan storleken bli mindre när knappen trycks ihop
+        */
+        min-width: 1.5rem;
+        stroke: currentColor;
+        stroke-width: 2;
+    }
+    .domain{
+        position: absolute;
+        bottom: -1.3rem;
+        left: 0; right: 0;
+        color: gray;
+        font-size: 0.7rem;
+        text-align: center;
     }
 
-    
-    .links{
-        display: flex;
-        justify-content: space-between;
-        grid-row: 1;
-        grid-column: 1 / 3;
+    h2{
+        text-align: center;
+        font-weight: 500;
     }
-    a{
-        border: 1px solid darkgreen;
-        background-color: greenyellow;
-        color: white;
-        text-decoration: none;
+    .notes{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 10px;
+        color: var(--black);
     }
     img{
         width: 100%;
         max-height: 50vh;
-        margin: auto;
+        margin: 20px auto;
         object-fit: cover;
-        border-radius: 20px;
+        border-radius: 10px;
+    }
+    .description{
+        max-width: 40rem;
+        margin: auto;
+    }
 
-        grid-column: 2;
-        grid-row: 2 / 99;
+    .buttons{
+        display: flex;
+        justify-content: space-evenly;
+        gap: 10px;
+        margin-block: 100px;
     }
     
 </style>

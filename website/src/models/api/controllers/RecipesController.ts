@@ -49,8 +49,11 @@ export class RecipesController extends Controller{
         })
     }
 
+    // Returnerar receptet om det hittas i store, annars null
     #findRecipeInStore(id: number){
         const store = get(this._store);
+        if(store == null) return null;
+
         for (const week of store) {
             for (const day of week.days) {
                 for (const recipe of day.recipes) {

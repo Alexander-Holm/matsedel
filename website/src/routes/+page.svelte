@@ -54,7 +54,7 @@
 {:else}
 <header class="grid-header">
     <Logo /> 
-    <button class="add-week button-big" on:click={addWeek}>Ny vecka</button>
+    <button class="add-week button-primary" on:click={addWeek}>Ny vecka</button>
 </header>
 
 <main>
@@ -75,7 +75,7 @@
                         </div>                       
                     </div>
                 {/each}
-                <a class="add-recipe button-big" href={`recept/ny?vecka=${week.id}`}>Lägg till recept</a>
+                <a class="add-recipe button-primary" href={`recept/ny?vecka=${week.id}`}>Lägg till recept</a>
             </div>
         </article>
         {/each}
