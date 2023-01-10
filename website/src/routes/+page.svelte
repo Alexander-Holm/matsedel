@@ -15,7 +15,7 @@
 
     let isLoading = true;
     let weeks: Week[];
-
+    
     onMount(async () => {
         // weeks uppdateras varje gång store från Api ändras
         const unsubscribe = Api.subscribe(store => weeks = store);       
@@ -51,7 +51,6 @@
             await Api.weeks.add(weekName);
     }    
 </script>
-
 
 {#if isLoading}
 <Header />
@@ -98,7 +97,6 @@
         align-items: start;
         row-gap: 100px;
         column-gap: 60px;
-        margin-top: -50px;
     }
     .add-week{
         margin-left: 30px;
