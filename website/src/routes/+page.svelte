@@ -1,16 +1,20 @@
 <script lang="ts">
-    import { Days, type Week } from "../models/Week";
-    import RecipePreview from "../components/RecipePreview.svelte";
     import { onMount } from "svelte";
+
+    import { Days, type Week } from "../models/Week";
     import { Api } from "../models/api/Api";
-    import DayHeader from "src/components/DayHeader.svelte";
-    import WeekHeader from "src/components/WeekHeader.svelte";
-    import LoadingScreen from "src/components/LoadingScreen.svelte";
+
     import Header from "src/components/Header.svelte";
+    import LoadingScreen from "src/components/LoadingScreen.svelte";
+    import WeekHeader from "src/components/WeekHeader.svelte";
+    import DayHeader from "src/components/DayHeader.svelte";
+    import RecipePreview from "../components/RecipePreview.svelte";
+
     import { scale } from "svelte/transition";
+    import { flip } from "svelte/animate";
 
     let isLoading = true;
-    let weeks: Week[];    
+    let weeks: Week[];
 
     onMount(async () => {
         // weeks uppdateras varje gång store från Api ändras
@@ -59,8 +63,13 @@
 </Header>
 
 <main>
-    {#each weeks as week, index}
-    <article class="week" in:scale={{delay: index * 200, duration: 500}} >
+    <!-- (week.id) är key och behövs för att animate:flip ska fungera -->
+    {#each weeks as week, index (week.id)}
+    <article class="week" 
+        in:scale={{delay: index * 200}}
+        out:scale
+        animate:flip={{duration: 800}} 
+    >
         <WeekHeader week={week} />
         <div class="week-content">
             {#each week.days.sort((a, b) => a.key - b.key) as day}
@@ -96,6 +105,7 @@
         white-space: nowrap;
     }
     .week{
+        background-color: white;
         border-radius: var(--border-radius);
         box-shadow: 0 0 20px #a2a2a2;
         overflow: hidden;
