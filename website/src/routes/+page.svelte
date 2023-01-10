@@ -67,7 +67,7 @@
     {#each weeks as week, index (week.id)}
     <article class="week" 
         in:scale={{delay: index * 200}}
-        out:scale
+        out:scale|local
         animate:flip={{duration: 800}} 
     >
         <WeekHeader week={week} />
