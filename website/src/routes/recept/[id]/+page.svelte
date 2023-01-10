@@ -1,15 +1,16 @@
 <script lang="ts">
     import { page } from '$app/stores';
-    import type { Recipe } from "src/models/Recipe";
-    import { Api } from 'src/models/api/Api';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import { fade } from "svelte/transition";
-    // Icons
+    
     import NoteIcon from 'src/icons/message.svelte';
     import Delete from 'src/icons/delete.svelte';
     import ExternalLink from 'src/icons/external-link.svelte';
     import Edit from 'src/icons/edit.svelte';
+    
+    import type { Recipe } from "src/models/Recipe";
+    import { Api } from 'src/models/api/Api';
     import Header from 'src/components/Header.svelte';
 
     let error = false;
@@ -109,7 +110,8 @@
 
     h2{
         text-align: center;
-        font-weight: 500;
+        font-weight: 800;
+        color: var(--black);
     }
     .notes{
         display: flex;
@@ -119,23 +121,27 @@
         margin-top: 10px;
         color: var(--black);
     }
-    img{
+    img{        
+        display: block;
         width: 100%;
+        max-width: 800px;
         max-height: 50vh;
-        margin: 20px auto;
+        margin: 40px auto;
         object-fit: cover;
+        border: 1px solid lightgray;
         border-radius: 10px;
     }
     .description{
         max-width: 40rem;
         margin: auto;
+        color: var(--black);
     }
 
     .buttons{
         display: flex;
         justify-content: space-evenly;
         gap: 10px;
-        margin-block: 100px;
+        margin-top: 140px;
     }
     
 </style>
