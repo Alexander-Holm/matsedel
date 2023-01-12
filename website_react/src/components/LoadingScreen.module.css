@@ -1,0 +1,26 @@
+#loadingScreen{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#loadingAnimation{
+    width: 200px;
+    height: 200px;
+    /* Animationen har mycket white-space runt sig */
+    margin-top: -10%;
+    margin-bottom: -40px;
+}
+#loadingScreen h2{
+    margin-bottom: 50px;
+    font-variation-settings: "wght" 400;
+}
+
+#loadingScreen .hide{
+    transform: scale(0);
+    transition: 500ms cubic-bezier(.46,1.14,.46,1.14);
+}
+#loadingScreen .show{
+    transform: scale(1);
+}

@@ -1,0 +1,87 @@
+.recipePreview{
+    width: 16rem;
+}
+.card{
+    height: 8rem;
+    background-color: hsl(0, 0%, 98%);
+    box-shadow: 0 0 4px #7b7b7b;        
+
+    display: flex;
+    text-decoration: none;
+    color: black;
+
+}
+    .card.loading{
+        background-color: coral;
+    }
+
+.image{
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.textContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 6px;
+    padding-left: 10px;
+    padding-right: 6px;
+}
+.title{
+    font-family: "Merienda";
+    font-variation-settings: "wght" 700;
+    font-size: 0.9rem;
+    --text-lines: 2;
+}
+.description{
+    font-family: "Merienda";
+    font-variation-settings: "wght" 400;
+    font-size: 0.75rem;
+    color: #373737;
+    --text-lines: 4;         
+}
+.title, .description{
+    /* Bryter av text som är för lång */
+    display: -webkit-box !important;
+    -webkit-line-clamp: var(--text-lines);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notes{        
+    height: 2em;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+
+    stroke: var(--black);
+    stroke-width: 1.5;
+}
+.notes span{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* Loading */
+
+.loading span{
+    display: block;
+    background-color: lightgray;
+}
+.loading .textContainer span{
+    border-radius: 50px;
+    margin-block: 5px;
+}
+.loading .title{
+    height: 1rem;
+}
+.loading .description span{
+    height: 0.5rem;
+}

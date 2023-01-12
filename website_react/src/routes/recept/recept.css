@@ -1,0 +1,124 @@
+#recipe{
+    animation: fade 600ms ease-out;
+}
+.open-recipe{
+    position: relative;        
+}
+.icon-button{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 14px;
+}
+.icon{
+    display: inline-block;
+    height: 1.5rem;
+    /* 
+        Måste vara min-width.
+        Med vanlig width kan storleken bli mindre när knappen trycks ihop
+    */
+    min-width: 1.5rem;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+.domain{
+    position: absolute;
+    bottom: -1.3rem;
+    left: 0; right: 0;
+    color: gray;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+#recipe h2{
+    text-align: center;
+    font-weight: 800;
+    color: var(--black);
+}
+.notes{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    color: var(--black);
+}
+#recipe img{        
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    max-height: 50vh;
+    margin: 40px auto;
+    object-fit: cover;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+#recipe .description{
+    max-width: 40rem;
+    margin: auto;
+    color: var(--black);
+}
+
+#recipe .buttons{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    margin-top: 140px;
+}
+
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+label{
+    margin-top: 40px;
+}
+#url, #notes, .days{
+    border: 1px solid lightgray;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+}
+
+#url, #notes{
+    font-family: inherit;
+    color: var(--black);
+    width: 40rem;
+    max-width: 100%;
+    margin: auto;
+    padding: 8px;        
+}
+
+
+.days{
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 80px;
+    padding: 20px;
+}
+legend{
+    margin: auto;
+}
+
+.day-button{
+    display: inline-block;
+    background-color: transparent;
+    color: var(--black);
+    border: 2px solid;
+    outline: 2px solid;
+    outline-offset: -2px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    padding: 12px;
+    margin: 20px;
+
+    transition: outline-offset 100ms ease-out;
+}
+input[type="radio"]{
+    display: none;
+}
+input[type="radio"]:checked + .day-button{
+    outline-offset: -8px;
+}
