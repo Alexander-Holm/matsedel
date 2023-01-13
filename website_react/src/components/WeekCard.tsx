@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Api } from "../models/api/Api";
-import { Recipe } from "../models/Recipe";
 import { Day, Days } from "../models/Week"
 import RecipeCard from "./RecipeCard";
 import styles from "./WeekCard.module.css";
@@ -10,6 +9,8 @@ interface props{
     id: number,
     name: string,
     days: Day[],
+
+    animationDelayMs: number,
     loadPreviews: boolean,
     onPreviewsLoaded: () => void
 }
@@ -63,7 +64,7 @@ export default function WeekCard( props: props ){
     }
 
     return(
-        <article className={styles.weekCard}>
+        <article className={styles.weekCard} style={{animationDelay: props.animationDelayMs + "ms"}}>
 
             <header className={styles.weekHeader}>
                 <h2>Vecka {name}</h2>
