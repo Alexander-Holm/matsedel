@@ -7,8 +7,10 @@
 .icon-button{
     display: flex;
     align-items: center;
-    gap: 10px;
     padding-right: 14px;
+}
+.icon-button .text{
+    margin-right: 10px;
 }
 .icon{
     display: inline-block;
@@ -39,9 +41,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
     margin-top: 10px;
     color: var(--black);
+}
+.notes .icon{
+    margin-right: 6px;
 }
 #recipe img{        
     display: block;
@@ -62,8 +66,10 @@
 #recipe .buttons{
     display: flex;
     justify-content: space-evenly;
-    gap: 10px;
     margin-top: 140px;
+}
+#recipe .buttons > *{
+    margin-inline: 5px;
 }
 
 

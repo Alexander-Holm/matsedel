@@ -1,4 +1,5 @@
 .weekCard{
+    margin: 100px 60px;
     background-color: white;
     border-radius: var(--border-radius);
     box-shadow: 0 0 20px #a2a2a2;
@@ -8,6 +9,7 @@
     /* För att inte visas när animation har delay */
     scale: 0;
 }
+    .weekCard:first-child{ margin-top: 0; }
 
 
 /* Week header */
@@ -15,12 +17,13 @@
 .weekHeader{
     display: flex;
     align-items: center;
-    gap: 40px;
     background-color: var(--black);
     color: white;
     padding: 10px 20px;
 }
 .edit, .delete{
+    height: 2rem;
+    min-width: 2rem;
     background-color: transparent;
     color: inherit;       
     stroke: currentColor; 
@@ -29,14 +32,13 @@
     display: flex;
 }
 .edit{
-    width: 2rem;
+    margin-inline: 40px;
     stroke-width: 1.5;
 }
 .delete{
-    width: 2.2rem;
-    padding-left: 8px;
     margin-left: auto;
     stroke-width: 2;
+    padding: 2px;
 }
 
 
@@ -48,7 +50,6 @@
     column-gap: 20px;
     row-gap: 30px;
     padding: 30px;
-    padding-right: 40px;
 }
 .day{
     display: contents;
@@ -57,8 +58,7 @@
     grid-column: 2;
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    padding-block: 10px;
+    padding-block: 4px;
 }
 
 
@@ -67,7 +67,6 @@
 .dayHeader{
     grid-column: 1;
     display: flex;
-    gap: 20px;
 }
 .decoration{
     display: block;
@@ -75,6 +74,7 @@
     width: 2px;
     /* rem istället för px för att följa mitten av h3 som har font-size i rem */
     margin-top: 0.5rem;
+    margin-right: 20px;
     background-color: var(--black);
     /* Rundar slutet av linjen */
     border-radius: 20px;
