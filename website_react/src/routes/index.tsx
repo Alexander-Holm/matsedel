@@ -31,6 +31,10 @@ export default function Index(){
         setWeeks(weeks => [newWeek, ...weeks]);
     }
 
+    function handleWeekDelete(id: number){
+        setWeeks(weeks =>  weeks.filter(week => week.id != id));
+    }
+
     if(isLoading){
         return(
             <>
@@ -56,6 +60,7 @@ export default function Index(){
                         animationDelayMs={index * 300}
                         loadPreviews={index === loadPreviewsForWeek}
                         onPreviewsLoaded={() => setLoadPreviewsForWeek(index + 1)}
+                        onDelete={handleWeekDelete}
                     />
                 )
             })}

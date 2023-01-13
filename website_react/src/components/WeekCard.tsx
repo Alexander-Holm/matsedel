@@ -14,7 +14,8 @@ interface props{
 
     animationDelayMs: number,
     loadPreviews: boolean,
-    onPreviewsLoaded: () => void
+    onPreviewsLoaded: () => void,
+    onDelete: (id: number) => void
 }
 
 export default function WeekCard( props: props ){
@@ -61,8 +62,10 @@ export default function WeekCard( props: props ){
             shouldDelete = window.confirm(message);
         }
         // TODO
-        if(shouldDelete) 
+        if(shouldDelete) {
             await Api.weeks.delete(props.id);
+            props.onDelete(props.id);
+        }
     }
 
     return(
