@@ -49,7 +49,7 @@ export default function Index(){
         <Header >
             <button className="add-week button-primary" onClick={addWeek} >Ny vecka</button>
         </Header>
-        <main className="weeks">
+        <main id="weeks">
             {weeks?.map((week, index) => {
                 return(
                     <WeekCard 
@@ -57,7 +57,7 @@ export default function Index(){
                         name={week.name} 
                         days={week.days}
 
-                        animationDelayMs={index * 300}
+                        animationDelayMs={index * 150}
                         loadPreviews={index === loadPreviewsForWeek}
                         onPreviewsLoaded={() => setLoadPreviewsForWeek(index + 1)}
                         onDelete={handleWeekDelete}

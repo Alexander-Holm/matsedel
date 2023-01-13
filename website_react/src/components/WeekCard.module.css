@@ -1,15 +1,14 @@
 .weekCard{
-    margin: 100px 60px;
+    margin: 100px 30px;
+    margin-top: 0;
     background-color: white;
     border-radius: var(--border-radius);
     box-shadow: 0 0 20px #a2a2a2;
     overflow: hidden;
-    /* cubic-out */
-    animation: 600ms "scale" cubic-bezier(.22,.61,.36,1) forwards;
+    animation: 400ms "scale" var(--easing-cubic-out) forwards;
     /* För att inte visas när animation har delay */
     scale: 0;
 }
-    .weekCard:first-child{ margin-top: 0; }
 
 
 /* Week header */

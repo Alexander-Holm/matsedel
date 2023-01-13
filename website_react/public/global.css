@@ -21,6 +21,7 @@
 :root{
     --black: #2b2b2b;
     --border-radius: 4px;
+    --easing-underdamped: cubic-bezier(.47,1.32,.48,1.32);
     --easing-cubic-out: cubic-bezier(.22,.61,.36,1);
     --animation-page-transition: fade 500ms var(--easing-cubic-out);
 }
@@ -32,7 +33,7 @@ html{
 body{
     min-height: 100%;
     box-sizing: border-box;
-    max-width: 1100px;
+    max-width: 1400px;
     margin: auto;
 
     display: flex;
@@ -45,6 +46,14 @@ body{
 /* Root för React */
 #root{
     display: contents;
+}
+
+#weeks{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* För att flex items inte ska sträckas till samma height som bredvidliggande items */
+    align-items: flex-start;
 }
 
 .button-primary, .button-secondary{
