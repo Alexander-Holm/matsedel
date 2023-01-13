@@ -8,7 +8,7 @@ import WeekCard from "../components/WeekCard";
 import { Api } from "../models/api/Api";
 import { Week } from "../models/Week";
 // Style
-import styles from "./index.module.css";
+import "./index.css";
 
 export default function Index(){
 
@@ -45,13 +45,15 @@ export default function Index(){
         <Header >
             <button className="add-week button-primary" onClick={addWeek} >Ny vecka</button>
         </Header>
-        <main className={styles.weeks}>
+        <main className="weeks">
             {weeks?.map((week, index) => {
                 return(
                     <WeekCard 
                         id={week.id} key={week.id}
                         name={week.name} 
                         days={week.days}
+
+                        animationDelayMs={index * 300}
                         loadPreviews={index === loadPreviewsForWeek}
                         onPreviewsLoaded={() => setLoadPreviewsForWeek(index + 1)}
                     />

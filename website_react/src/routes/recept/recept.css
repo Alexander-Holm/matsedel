@@ -1,5 +1,5 @@
 #recipe{
-    animation: fade 600ms ease-out;
+    animation: var(--animation-page-transition);
 }
 .open-recipe{
     position: relative;        
@@ -72,6 +72,7 @@ form{
     flex-direction: column;
     align-items: center;
     text-align: center;
+    animation: var(--animation-page-transition);
 }
 label{
     margin-top: 40px;

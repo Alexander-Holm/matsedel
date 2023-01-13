@@ -2,6 +2,18 @@
     font-family: "Merienda";
     src: url("fonts/Merienda-VariableFont_wght.ttf");
 }
+@keyframes fade {
+    from{ opacity: 0; }
+    to{ opacity: 1; }
+}
+@keyframes scale{
+    0%{
+        scale: 0;
+        opacity: 0;
+    }
+    50%{ opacity: 1; }
+    100%{ scale: 1; }
+}
 *{    
     margin: 0;
     padding: 0;
@@ -9,6 +21,8 @@
 :root{
     --black: #2b2b2b;
     --border-radius: 4px;
+    --easing-cubic-out: cubic-bezier(.22,.61,.36,1);
+    --animation-page-transition: fade 500ms var(--easing-cubic-out);
 }
 html{
     height: 100%;

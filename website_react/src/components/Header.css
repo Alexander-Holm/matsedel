@@ -19,9 +19,4 @@
 }
 #header-slot{
     grid-column: 3;
-    animation: fade 600ms ease-out;
-}
-@keyframes fade {
-    from{ opacity: 0; }
-    to{ opacity: 1; }
 }
