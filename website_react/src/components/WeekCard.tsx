@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Api } from "../models/api/Api";
 import { Day, Days } from "../models/Week"
@@ -19,17 +19,14 @@ interface props{
 }
 
 export default function WeekCard( props: props ){
-    
+    // Måste använda destructuring för dependency arrays i useEffect och useCallback
+    const { loadPreviews, onPreviewsLoaded } = props;
+
     const [name, setname] = useState(props.name);
     // days innehåller recepten
     const [days, setDays] = useState(props.days);
 
-    useEffect(() => {
-        if(props.loadPreviews)
-            loadPreviews();
-    },[props.loadPreviews])
-
-    async function loadPreviews(){
+    const fetchPreviews = useCallback( async () => {
         const updatedDays = [...days];
         const fetchRequests = [];
         for (const day of updatedDays) {
@@ -42,8 +39,13 @@ export default function WeekCard( props: props ){
         }
         await Promise.all(fetchRequests);
         setDays(updatedDays);
-        props.onPreviewsLoaded();
-    }
+        onPreviewsLoaded();
+    }, [days, onPreviewsLoaded])
+
+    useEffect(() => {
+        if(loadPreviews) 
+            fetchPreviews();
+    }, [loadPreviews, fetchPreviews])
 
     async function editWeek(){
         const newName = prompt("Nytt namn", name);
@@ -61,7 +63,6 @@ export default function WeekCard( props: props ){
                 "Alla recept som hör till den här veckan kommer också tas bort!"
             shouldDelete = window.confirm(message);
         }
-        // TODO
         if(shouldDelete) {
             await Api.weeks.delete(props.id);
             props.onDelete(props.id);

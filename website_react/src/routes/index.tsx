@@ -32,7 +32,7 @@ export default function Index(){
     }
 
     function handleWeekDelete(id: number){
-        setWeeks(weeks =>  weeks.filter(week => week.id != id));
+        setWeeks(weeks =>  weeks.filter(week => week.id !== id));
     }
 
     if(isLoading){

@@ -1,6 +1,5 @@
 import { Controller } from "./Controller";
-import { Recipe, type RecipeDto } from "../../Recipe";
-import { Api } from "../Api";
+import { type RecipeDto } from "../../Recipe";
 
 export class RecipesController extends Controller{
     async add(recipeDto: RecipeDto){
@@ -10,10 +9,10 @@ export class RecipesController extends Controller{
             body: JSON.stringify(recipeDto),
             headers: { "content-type": "application/json" }
         }
-        const res = await fetch(this._apiUrl, options);
+        await fetch(this._apiUrl, options);
     }
     async delete(id: number){
         const method = "DELETE";
-        const res = await fetch(this._apiUrl + id, {method});
+        await fetch(this._apiUrl + id, {method});
     }
 }

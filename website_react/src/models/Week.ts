@@ -16,7 +16,7 @@ export class Week{
         for (const recipeDto of weekDto.recipes) {
             const recipe = new Recipe(recipeDto);
             let day = this.days.find(day => day.key == recipeDto.day);
-            if(day == null) {
+            if(day === undefined) {
                 day = { key: recipeDto.day, recipes: [] }
                 this.days.push(day);
             }

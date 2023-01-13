@@ -24,7 +24,7 @@ export class WeeksController extends Controller{
     }
     async delete(id: number){
         const method = "DELETE";
-        const res = await fetch(this._apiUrl + id, {method});
+        await fetch(this._apiUrl + id, {method});
     }    
     async rename(id: number, newName: string){
         const method = "PUT";
@@ -34,6 +34,6 @@ export class WeeksController extends Controller{
             body: JSON.stringify(payload),
             headers: { "content-type": "application/json" }
         };
-        const res = await fetch(this._apiUrl + id, options);
+        await fetch(this._apiUrl + id, options);
     }
 }
