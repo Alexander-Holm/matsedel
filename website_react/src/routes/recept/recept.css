@@ -65,11 +65,12 @@
 
 #recipe .buttons{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     margin-top: 140px;
 }
 #recipe .buttons > *{
-    margin-inline: 5px;
+    margin: 5px;
 }
 
 

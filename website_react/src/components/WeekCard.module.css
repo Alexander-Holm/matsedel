@@ -22,17 +22,16 @@
     padding: 10px 20px;
 }
 .edit, .delete{
+    display: block;
     height: 2rem;
     min-width: 2rem;
     background-color: transparent;
     color: inherit;       
     stroke: currentColor; 
     border: 0;
-    /* flex för att centrera ikonen */
-    display: flex;
 }
 .edit{
-    margin-inline: 40px;
+    margin: 0 40px;
     stroke-width: 1.5;
 }
 .delete{

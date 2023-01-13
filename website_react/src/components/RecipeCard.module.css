@@ -78,7 +78,7 @@
 }
 .loading .textContainer span{
     border-radius: 50px;
-    margin-block: 5px;
+    margin: 0 5px;
 }
 .loading .title{
     height: 1rem;
