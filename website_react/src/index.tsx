@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 
+// Scrollar till top varje gång url ändras.
+// React-router-dom behåller annars scrollpositionen mellan sidor
 export default function RouteScrollPositionTop() {
     const { pathname } = useLocation();
     useLayoutEffect(() => {
