@@ -4,6 +4,8 @@ import { Api } from "../models/api/Api";
 import { Day, Days } from "../models/Week"
 import RecipeCard from "./RecipeCard";
 import styles from "./WeekCard.module.css";
+import { ReactComponent as Edit } from "../icons/edit.svg";
+import { ReactComponent as Delete } from "../icons/delete.svg";
 
 interface props{
     id: number,
@@ -68,8 +70,8 @@ export default function WeekCard( props: props ){
 
             <header className={styles.weekHeader}>
                 <h2>Vecka {name}</h2>
-                <button className={styles.edit} onClick={editWeek}>Edit</button>
-                <button className={styles.delete} onClick={deleteWeek}>Del</button>
+                <button className={styles.edit} onClick={editWeek}><Edit/></button>
+                <button className={styles.delete} onClick={deleteWeek}><Delete/></button>
             </header>
 
             <div className={styles.weekContent}>

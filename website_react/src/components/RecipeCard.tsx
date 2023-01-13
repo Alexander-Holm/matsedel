@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Recipe } from "../models/Recipe";
 import styles from "./RecipeCard.module.css";
+import { ReactComponent as NotesIcon } from "../icons/message.svg";
 
 interface props{
     recipe: Recipe,
@@ -19,10 +20,12 @@ export default function RecipeCard( props: props ){
                         <p className={styles.description}>{description}</p>
                     </div>
                 </Link>
-                <div className={styles.notes}>
-                    [Ikon]
-                    <span>{notes}</span>
-                </div>
+                {notes && (
+                    <div className={styles.notes}>
+                        <NotesIcon />
+                        <span>{notes}</span>
+                    </div>
+                )}
             </div>
         )
     } 
