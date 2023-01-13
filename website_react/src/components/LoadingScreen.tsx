@@ -1,43 +1,50 @@
 import lottie from "lottie-web"
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import animation from "../icons/loading-animation.json";
-import styles from "./LoadingScreen.module.css";
+import "./LoadingScreen.css";
 
 export default function LoadingScreen(){
-    const [animationStarted, setAnimationStarted] = useState(false);
+    const [delayComplete, setDelayComplete] = useState(false);
     const [waitingForServer, setWaitingForServer] = useState(false);
-    const animationContainer = useRef(null);
+    // Måste vänta på att animationContainer finns i DOM innan animationen kan startas
+    const animationContainer = useCallback((node: HTMLElement | null) => {
+        if(node != null){
+            lottie.loadAnimation( {
+                container: node,
+                animationData: animation,
+                renderer: "svg",
+                autoplay: true,
+                loop: true,
+            });
+        }
+    }, []);
 
     useEffect(() => {
-        if(animationContainer.current == null){
-            console.log("animationContainer null");
-            return;
-        }
+        const renderDelay = 500; //ms
+        const timer1 = setTimeout(() => {
+            setDelayComplete(true);
+        }, renderDelay);
 
-        lottie.loadAnimation( {
-            container: animationContainer.current,
-            animationData: animation,
-            renderer: "svg",
-            autoplay: true,
-            loop: true,
-        });
-        setAnimationStarted(true);
-
-        const timer = setTimeout(() => {
+        const timer2 = setTimeout(() => {
             setWaitingForServer(true);
         }, 4000);
 
-        return () => clearTimeout(timer);
+        function cleanup(){
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+        }
+
+        return cleanup;
     },[])
 
-    return(
-        <div id={styles.loadingScreen}>
-            <span id={styles.loadingAnimation} ref={animationContainer} />
-            <h2 className={animationStarted ? styles.show : styles.hide} >
-                Laddar recept
-            </h2>
-            <p className={waitingForServer ? styles["show"] : styles["hide"]} >
-                Servern behöver startas. Detta kan ta över 30 sekunder.
+    if(delayComplete === false) 
+        return null;
+    else return(
+        <div id="loadingScreen">
+            <span id="loadingAnimation" ref={animationContainer} />
+            <h2 className="text-animation show">Laddar recept</h2>
+            <p className={`text-animation ${waitingForServer ?"show" :""}`} >
+                Servern behöver startas. Det tar ungefär 30 sekunder.
             </p>
         </div>
     )

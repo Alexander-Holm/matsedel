@@ -14,13 +14,11 @@
 }
 #loadingScreen h2{
     margin-bottom: 50px;
-    font-variation-settings: "wght" 400;
+    font-weight: 400;
 }
-
-#loadingScreen .hide{
-    transform: scale(0);
-    transition: 500ms cubic-bezier(.46,1.14,.46,1.14);
+#loadingScreen .text-animation{
+    scale: 0;
 }
-#loadingScreen .show{
-    transform: scale(1);
-}
+    #loadingScreen .text-animation.show{
+        animation: "scale" 400ms var(--easing-underdamped) forwards;
+    }
