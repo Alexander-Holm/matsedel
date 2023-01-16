@@ -9,16 +9,10 @@
     width: 200px;
     height: 200px;
     /* Animationen har mycket white-space runt sig */
-    margin-top: -10%;
     margin-bottom: -40px;
+    margin-top: -15%;
 }
 #loadingScreen h2{
-    margin-bottom: 50px;
     font-weight: 400;
+    animation: "scale" 400ms var(--easing-underdamped) forwards;
 }
-#loadingScreen .text-animation{
-    scale: 0;
-}
-    #loadingScreen .text-animation.show{
-        animation: "scale" 400ms var(--easing-underdamped) forwards;
-    }

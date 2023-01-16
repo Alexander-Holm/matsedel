@@ -5,7 +5,6 @@ import "./LoadingScreen.css";
 
 export default function LoadingScreen(){
     const [delayComplete, setDelayComplete] = useState(false);
-    const [waitingForServer, setWaitingForServer] = useState(false);
     // Måste vänta på att animationContainer finns i DOM innan animationen kan startas
     const animationContainer = useCallback((node: HTMLElement | null) => {
         if(node != null){
@@ -19,22 +18,14 @@ export default function LoadingScreen(){
         }
     }, []);
 
+    // Det ser inte bra ut när animationen visas en väldigt kort stund.
+    // Väntar lite med att visa animationen så att den inte visas när det går väldigt fort att ladda.
     useEffect(() => {
         const renderDelay = 500; //ms
-        const timer1 = setTimeout(() => {
+        const timer = setTimeout(() => {
             setDelayComplete(true);
         }, renderDelay);
-
-        const timer2 = setTimeout(() => {
-            setWaitingForServer(true);
-        }, 4000);
-
-        function cleanup(){
-            clearTimeout(timer1);
-            clearTimeout(timer2);
-        }
-
-        return cleanup;
+        return () => clearTimeout(timer);
     },[])
 
     if(delayComplete === false) 
@@ -42,10 +33,7 @@ export default function LoadingScreen(){
     else return(
         <div id="loadingScreen">
             <span id="loadingAnimation" ref={animationContainer} />
-            <h2 className="text-animation show">Laddar recept</h2>
-            <p className={`text-animation ${waitingForServer ?"show" :""}`} >
-                Servern behöver startas. Det tar ungefär 30 sekunder.
-            </p>
+            <h2>Laddar recept</h2>
         </div>
     )
 }
