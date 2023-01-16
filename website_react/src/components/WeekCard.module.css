@@ -7,7 +7,7 @@
     overflow: hidden;
     animation: 400ms "scale" var(--easing-cubic-out) forwards;
     /* För att inte visas när animation har delay */
-    scale: 0;
+    transform: scale(0);
 }
 
 
