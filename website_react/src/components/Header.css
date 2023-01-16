@@ -7,18 +7,32 @@
 }
 #header-logo{
     grid-column: 2;
+    text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
     /* height bestämmer storlek på ikonen */
     height: 4rem;
-    margin-right: 20px;
-    /* Ser mer centrerat ut med lite mer margin-left */
-    margin-left: 40px;
+    /* Ser mer centrerat ut */
+    position: relative;
+    right: -1rem;
 }
-#header-logo h1{
+#header-logo h1{    
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--black);
+    width: min-content;
     margin-left: 10px;
 }
 #header-slot{
     grid-column: 3;
+    margin-left: 3rem;
+    animation: "slide" 300ms var(--easing-cubic-out);
+}
+@keyframes slide {
+    from{ 
+        opacity: 0;
+        transform: translateY(-200%);
+    }
 }

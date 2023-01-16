@@ -7,7 +7,7 @@
 .icon-button{
     display: flex;
     align-items: center;
-    padding-right: 14px;
+    justify-content: center;
 }
 .icon-button .text{
     margin-right: 10px;
@@ -22,6 +22,7 @@
     min-width: 1.5rem;
     stroke: currentColor;
     stroke-width: 2;
+    margin-right: -6px;
 }
 .domain{
     position: absolute;

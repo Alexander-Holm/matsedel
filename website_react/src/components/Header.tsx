@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ReactComponent as Logo} from "../icons/matsedel-logo.svg"
 import "./Header.css";
 
@@ -7,10 +8,10 @@ interface props{
 export default function Header( { children }: props ){
     return (
         <header id="header">
-            <span id="header-logo">
+            <Link id="header-logo" to={"/"}>
                 <Logo />
-                <h1>Matsedel</h1>
-            </span>
+                <h1>Alexanders matsedel</h1>
+            </Link>
             <span id="header-slot">{children}</span>
         </header>
     )

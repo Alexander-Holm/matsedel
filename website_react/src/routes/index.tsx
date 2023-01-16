@@ -1,7 +1,7 @@
 // React
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 // Components
-import Header from "../components/Header"
+import HeaderComponent from "../components/Header"
 import LoadingScreen from "../components/LoadingScreen";
 import WeekCard from "../components/WeekCard";
 // Models
@@ -12,6 +12,7 @@ export default function Index(){
 
     const [isLoading, setIsLoading] = useState(true);
     const [weeks, setWeeks] = useState<Week[]>([]);
+    // För att ladda previews en vecka i taget uppifrån
     const [loadPreviewsForWeek, setLoadPreviewsForWeek] = useState(0); //index
 
     useEffect(() => {
@@ -33,6 +34,16 @@ export default function Index(){
         setWeeks(weeks =>  weeks.filter(week => week.id !== id));
     }
 
+    // Använder useMemo för att förhindra onödiga rerenders av Header som förstör animationer
+    const Header = useMemo(() => {
+        if(isLoading) return () => <HeaderComponent />
+        else return () => (
+            <HeaderComponent >
+                <button className="add-week button-primary" onClick={addWeek} >Ny vecka</button>
+            </HeaderComponent>
+        )
+    }, [isLoading])
+
     if(isLoading){
         return(
             <>
@@ -44,9 +55,7 @@ export default function Index(){
 
     return (
         <>
-        <Header >
-            <button className="add-week button-primary" onClick={addWeek} >Ny vecka</button>
-        </Header>
+        <Header />
         <main id="weeks">
             {weeks?.map((week, index) => {
                 return(
