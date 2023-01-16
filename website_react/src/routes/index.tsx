@@ -7,8 +7,6 @@ import WeekCard from "../components/WeekCard";
 // Models
 import { Api } from "../models/api/Api";
 import { Week } from "../models/Week";
-// Style
-import "./index.css";
 
 export default function Index(){
 

@@ -56,7 +56,17 @@
     grid-column: 2;
     display: flex;
     flex-wrap: wrap;
-    padding-block: 4px;
+    padding: 4px 0;
+}
+/* 
+    Flex column istället för row med wrap.
+    Annars blir WeekCard med recept som wrappar bredare än andra WeekCard,
+    trots att båda bara har en kolumn med recept.
+*/
+@media (max-width: 900px) {
+    .dayRecipes{
+        flex-direction: column;
+    }
 }
 
 
@@ -65,6 +75,7 @@
 .dayHeader{
     grid-column: 1;
     display: flex;
+    margin-left: 10px;
 }
 .decoration{
     display: block;

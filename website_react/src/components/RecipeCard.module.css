@@ -30,7 +30,8 @@
     }
 
 .image{
-    height: 100%;
+    /* height:100% fungerar inte i Safari */
+    height: inherit;
     width: 100%;
     object-fit: cover;
 }
