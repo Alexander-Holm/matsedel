@@ -19,7 +19,8 @@
     box-shadow: 0 0 4px #7b7b7b;        
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Kolumn 2 måste ha min 0 för att inte trycka ihop kolumn 1 (bilden) */
+    grid-template-columns: 1fr minmax(0, 1fr);
     text-decoration: none;
     color: black;
 
@@ -39,20 +40,20 @@
 .textContainer{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     padding: 4px;
     padding-left: 10px;
 }
 .title{
     font-family: "Merienda";
-    font-variation-settings: "wght" 700;
+    font-weight: 700;
     font-size: 0.9rem;
     --text-lines: 2;
     margin-bottom: 6px;
 }
 .description{
     font-family: "Merienda";
-    font-variation-settings: "wght" 400;
+    font-weight: 400;
     font-size: 0.75rem;
     color: #373737;
     --text-lines: 4;         
