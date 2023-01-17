@@ -9,17 +9,13 @@ import { Api } from "../models/api/Api";
 import { Week } from "../models/Week";
 
 export default function Index(){
-
-    const [isLoading, setIsLoading] = useState(true);
-    const [weeks, setWeeks] = useState<Week[]>([]);
+    const [weeks, setWeeks] = useState<Week[]>();
     // För att ladda previews en vecka i taget uppifrån
     const [loadPreviewsForWeek, setLoadPreviewsForWeek] = useState(0); //index
 
     useEffect(() => {
-        Api.weeks.getAll().then(weeks => {
-            setWeeks(weeks);
-            setIsLoading(false);
-        })
+        Api.weeks.getAll()
+            .then(weeks => setWeeks(weeks));
     },[])
 
     async function addWeek(){
@@ -27,24 +23,29 @@ export default function Index(){
         if(weekName == null) return;
         const newWeek = await Api.weeks.add(weekName);
         // Lägg ny week på första plats i arrayen.
-        setWeeks(weeks => [newWeek, ...weeks]);
+        setWeeks(weeks => [newWeek, ...weeks as []]);
     }
 
     function handleWeekDelete(id: number){
-        setWeeks(weeks =>  weeks.filter(week => week.id !== id));
+        // Om sista veckan tas bort måste weeks sättas till en tom array, inte undefined.
+        // Annars blir det en oändlig LoadingScreen.
+        setWeeks(weeks =>  weeks?.filter(week => week.id !== id) || []);
     }
 
-    // Använder useMemo för att förhindra onödiga rerenders av Header som förstör animationer
+    // Använder useMemo för att förhindra onödiga rerenders av Header som förstör animationen.
+    // Endast sista halvan av animationen visas annars när man 
+    // kommer till den här sidan från någon av recept-sidorna.
+    // WeekCard animationerna verkar inte ha samma problem.
     const Header = useMemo(() => {
-        if(isLoading) return () => <HeaderComponent />
+        if(weeks === undefined) return () => <HeaderComponent />
         else return () => (
             <HeaderComponent >
                 <button className="add-week button-primary" onClick={addWeek} >Ny vecka</button>
             </HeaderComponent>
         )
-    }, [isLoading])
+    }, [weeks])
 
-    if(isLoading){
+    if(weeks === undefined){
         return(
             <>
             <Header />
@@ -52,8 +53,7 @@ export default function Index(){
             </>
         )
     }
-
-    return (
+    else return (
         <>
         <Header />
         <main id="weeks">
