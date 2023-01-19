@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Header from "../../components/Header";
 import { ReactComponent as ExternalLink} from "../../icons/external-link.svg";
 import { ReactComponent as NoteIcon} from "../../icons/message.svg";
@@ -15,7 +15,6 @@ export default function Id(){
     //const { id } = useParams();
 
     async function clickDelete(){
-        if(recipe?.id == null) return;
         const confirmDelete = window.confirm("Vill du ta bort det här receptet?");
         if(confirmDelete){
             await Api.recipes.delete(recipe.id);
@@ -44,11 +43,10 @@ export default function Id(){
             <img src={recipe.linkPreview?.imageUrl} alt="" />
             <p className="description">{recipe.linkPreview?.description}</p>
             <div className="buttons">
-                {/* REDIGERA SIDAN EJ KLAR */}
-                <a href="#top" className="icon-button button-secondary">
+                <Link to={"/recept/redigera/" + recipe.id} className="icon-button button-secondary">
                     <span className="text">Redigera</span>
                     <span className="icon"><Edit /></span>
-                </a>
+                </Link>
                 <button onClick={clickDelete} className="icon-button button-secondary">
                     <span className="text">Ta bort</span>
                     <span className="icon"><Delete /></span>
