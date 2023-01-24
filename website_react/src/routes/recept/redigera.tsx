@@ -14,7 +14,7 @@ export default function Redigera(){
     useEffect(() => {
         Api.recipes.get(Number(id))
             .then(recipe => setRecipe(recipe));
-    })
+    },[])
 
     async function handleSubmit(updatedRecipe: RecipeDto){
         await Api.recipes.update(updatedRecipe);
@@ -33,7 +33,8 @@ export default function Redigera(){
         <Header />
         <RecipeForm 
             title="Redigera recept"
-            recipe={recipe} weekId={recipe.weekId} 
+            recipe={recipe} 
+            weekId={recipe.weekId} editWeek={true}
             handleSubmit={handleSubmit} 
         />
         </>

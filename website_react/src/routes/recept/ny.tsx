@@ -20,7 +20,7 @@ export default function Ny(){
         <Header />
         <RecipeForm 
             title="Lägg till recept"
-            weekId={weekId} 
+            weekId={weekId} editWeek={false}
             handleSubmit={handleSubmit} 
         />
         </>

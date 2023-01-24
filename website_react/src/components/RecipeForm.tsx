@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
+import { Api } from "../models/api/Api";
 import { Recipe, RecipeDto } from "../models/Recipe";
-import { Days } from "../models/Week";
+import { Days, Week } from "../models/Week";
 import "./RecipeForm.css"
 
 interface Props{ 
     title: string,
     recipe?: Recipe,
     weekId: number,
+    editWeek: boolean,
     handleSubmit: (recipe: RecipeDto) => void
 }
 export default function RecipeForm(props: Props){
@@ -24,6 +27,12 @@ export default function RecipeForm(props: Props){
     */
     const days = stupidTypescriptEnum.slice(stupidTypescriptEnum.length /2);
 
+    const [weeks, setWeeks] = useState<Week[]>();
+    useEffect(() => {
+        if(props.editWeek)
+            Api.weeks.getAll().then(weeks => setWeeks(weeks));
+    },[props.editWeek])
+
     async function handleSubmit(event: React.FormEvent){
         event.preventDefault();
         const data = new FormData(event.target as HTMLFormElement);
@@ -39,10 +48,33 @@ export default function RecipeForm(props: Props){
         
     return(
         <form onSubmit={handleSubmit} >
-            <h2>{props.title}</h2>
+            <h2>{props.title}</h2>            
 
             <label htmlFor="url">Länk</label>
             <input id="url" name="url" type="text" defaultValue={props.recipe?.url} required />
+
+            {props.editWeek && (
+                <>
+                <label htmlFor="week-select">Vecka</label>
+                <div className="animated-select">
+                    {weeks ?(
+                        <select id="week-select" name="week-select" defaultValue={props.weekId} >
+                            {weeks.map(week => (
+                                <option key={week.id} value={week.id} >{week.name}</option>
+                                ))}
+                        </select>
+                    )   
+                    :( // Visas när weeks laddas
+                        <span className="loading-indicator">
+                            <span style={{animationDelay: "0"}}>.</span>
+                            <span style={{animationDelay: "100ms"}} >.</span>
+                            <span style={{animationDelay: "200ms"}}>.</span>
+                        </span>
+                    )
+                }
+                </div>
+                </>
+            )}
 
             <fieldset className="days">
                 <legend>Dag</legend>
