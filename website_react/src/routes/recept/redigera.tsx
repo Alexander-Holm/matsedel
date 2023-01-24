@@ -14,7 +14,7 @@ export default function Redigera(){
     useEffect(() => {
         Api.recipes.get(Number(id))
             .then(recipe => setRecipe(recipe));
-    },[])
+    },[id])
 
     async function handleSubmit(updatedRecipe: RecipeDto){
         await Api.recipes.update(updatedRecipe);
