@@ -44,6 +44,7 @@ namespace api.Controllers
         // PUT: api/Recipes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ApiKeyAuthentication]
         public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
         {
             if (id != recipe.Id)
@@ -75,6 +76,7 @@ namespace api.Controllers
         // POST: api/Recipes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ApiKeyAuthentication]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
             _context.Recipe.Add(recipe);
@@ -85,6 +87,7 @@ namespace api.Controllers
 
         // DELETE: api/Recipes/5
         [HttpDelete("{id}")]
+        [ApiKeyAuthentication]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
             var recipe = await _context.Recipe.FindAsync(id);

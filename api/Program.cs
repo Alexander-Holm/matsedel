@@ -1,34 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using api;
-using HtmlAgilityPack;
-
-string url = "https://www.koket.se/pasta-salsiccia-classico";
-HtmlWeb web = new HtmlWeb();
-HtmlDocument htmlDoc = web.Load(url);
-var h1 = htmlDoc.DocumentNode.SelectSingleNode("//title");
-System.Diagnostics.Debug.WriteLine(h1.InnerHtml);
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(opt =>
 {
-    string connectionName = "ElephantSql";
     string? databaseUri;
     if (builder.Environment.IsDevelopment())
     {
-        // H�mtar fr�n secrets.json som s�tts lokalt i Visual Studio
-        databaseUri = builder.Configuration[connectionName];
+        // Hämtar från secrets.json som sätts lokalt i Visual Studio
+        // https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows
+        databaseUri = builder.Configuration[ElephantSql.EnvironmentVariable];
+        string apiKey = builder.Configuration["ApiKey"];
+        Environment.SetEnvironmentVariable("ApiKey", apiKey);
     }
     else
     {
-        // Environment variable s�tts p� render.com
-        databaseUri = Environment.GetEnvironmentVariable(connectionName);
+        // Environment variable sätts på render.com
+        databaseUri = Environment.GetEnvironmentVariable(ElephantSql.EnvironmentVariable);
         if (databaseUri is null) throw new KeyNotFoundException("Could not find connection string in environment variable");
     }
     string connectionString = ElephantSql.ConvertToConnectionString(databaseUri);
     opt.UseNpgsql(connectionString);
-    // Namn i databasen anv�nder snake_case men Models anv�nder PascalCase.
-    // Entity Framework konverterar namnen p� class och properties n�r den anv�nder databasen.
+    // Namn i databasen använder snake_case men Models använder PascalCase.
+    // Entity Framework konverterar namnen på class och properties när den anv�nder databasen.
     opt.UseSnakeCaseNamingConvention();
 });
 

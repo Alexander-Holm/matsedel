@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
-{
+{    
     [Route("api/[controller]")]
     [ApiController]
     public class WeeksController : ControllerBase
@@ -44,6 +45,7 @@ namespace api.Controllers
         // PUT: api/Weeks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ApiKeyAuthentication]
         public async Task<IActionResult> PutWeek(int id, Week week)
         {
             if (id != week.Id)
@@ -75,7 +77,8 @@ namespace api.Controllers
         // POST: api/Weeks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Week>> PostWeek(string name)
+        [ApiKeyAuthentication]
+        public async Task<ActionResult<Week>> PostWeek([FromBody]string name)
         {
             Week week = new Week(name);
             _context.Week.Add(week);
@@ -87,6 +90,7 @@ namespace api.Controllers
         // DELETE: api/Weeks/5
         // OBS: tar också bort alla recipe kopplade till week som tas bort!
         [HttpDelete("{id}")]
+        [ApiKeyAuthentication]
         public async Task<IActionResult> DeleteWeek(int id)
         {
             var week = await _context.Week.FindAsync(id);
