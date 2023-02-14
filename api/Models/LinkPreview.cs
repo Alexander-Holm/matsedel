@@ -22,7 +22,7 @@ namespace api.Models
             // Använder h1 istället för og:title.
             // De flesta sidorna lägger till sitt namn efter titeln i og:title,
             // t.ex: Namn På Recept | Hemsida.com
-            string? title = doc.DocumentNode.Descendants("h1").First().InnerText;
+            string? title = doc.DocumentNode.Descendants("h1").FirstOrDefault()?.InnerText;
             // Fallbacks
             title ??= GetOpenGraphProperty("title", doc);
             title ??= doc.DocumentNode.SelectSingleNode("//title").InnerText;
