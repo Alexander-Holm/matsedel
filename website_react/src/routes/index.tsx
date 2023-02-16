@@ -1,10 +1,8 @@
-// React
 import { useEffect, useMemo, useState } from "react"
-// Components
+import { usePasswordPrompt } from "../components/PasswordPrompt";
 import HeaderComponent from "../components/Header"
 import LoadingScreen from "../components/LoadingScreen";
 import WeekCard from "../components/WeekCard";
-// Models
 import { Api } from "../models/api/Api";
 import { Week } from "../models/Week";
 
@@ -12,18 +10,31 @@ export default function Index(){
     const [weeks, setWeeks] = useState<Week[]>();
     // För att ladda previews en vecka i taget uppifrån
     const [loadPreviewsForWeek, setLoadPreviewsForWeek] = useState(0); //index
+    const passwordPrompt = usePasswordPrompt();
 
     useEffect(() => {
         Api.weeks.getAll()
             .then(weeks => setWeeks(weeks));
     },[])
 
-    async function addWeek(){
-        const weekName = prompt("Namn på vecka");
+    async function addWeek(presetName?: string | undefined){
+        let apiKey = Api.key.get();
+        apiKey ??= await passwordPrompt.show();
+        if(apiKey === null) return;
+
+        const weekName = prompt("Namn på vecka", presetName);
         if(weekName == null) return;
-        const newWeek = await Api.weeks.add(weekName);
-        // Lägg ny week på första plats i arrayen.
-        setWeeks(weeks => [newWeek, ...weeks as []]);
+
+        try{
+            const newWeek = await Api.weeks.add(weekName, apiKey);
+            // Lägg ny week på första plats i arrayen
+            setWeeks(weeks => [newWeek, ...weeks as []]);
+        }
+        catch(error){
+            // Behåller namnet i input-rutan vid fel lösenord
+            const onRetry = () => addWeek(weekName);
+            Api.handleErrors(error, onRetry);
+        }
     }
 
     function handleWeekDelete(id: number){
@@ -40,7 +51,7 @@ export default function Index(){
         if(weeks === undefined) return () => <HeaderComponent />
         else return () => (
             <HeaderComponent >
-                <button className="add-week button-primary" onClick={addWeek} >Ny vecka</button>
+                <button className="add-week button-primary" onClick={() => addWeek()} >Ny vecka</button>
             </HeaderComponent>
         )
     }, [weeks])
