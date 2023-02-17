@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { usePasswordPrompt } from "../components/PasswordPrompt";
 import HeaderComponent from "../components/Header"
 import LoadingScreen from "../components/LoadingScreen";
@@ -17,7 +17,8 @@ export default function Index(){
             .then(weeks => setWeeks(weeks));
     },[])
 
-    async function addWeek(presetName?: string | undefined){
+    // Måste vara en useCallback då funktionen är en dependency för andra hooks
+    const addWeek = useCallback(async (presetName?: string) => {
         let apiKey = Api.key.get();
         apiKey ??= await passwordPrompt.show();
         if(apiKey === null) return;
@@ -27,7 +28,7 @@ export default function Index(){
 
         try{
             const newWeek = await Api.weeks.add(weekName, apiKey);
-            // Lägg ny week på första plats i arrayen
+            // Lägg ny week på första plats i arrayenW
             setWeeks(weeks => [newWeek, ...weeks as []]);
         }
         catch(error){
@@ -35,7 +36,7 @@ export default function Index(){
             const onRetry = () => addWeek(weekName);
             Api.handleErrors(error, onRetry);
         }
-    }
+    },[passwordPrompt])
 
     function handleWeekDelete(id: number){
         // Om sista veckan tas bort måste weeks sättas till en tom array, inte undefined.
@@ -54,7 +55,7 @@ export default function Index(){
                 <button className="add-week button-primary" onClick={() => addWeek()} >Ny vecka</button>
             </HeaderComponent>
         )
-    }, [weeks])
+    }, [weeks, addWeek])
 
     if(weeks === undefined){
         return(
