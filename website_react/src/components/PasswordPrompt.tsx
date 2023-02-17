@@ -87,7 +87,7 @@ export function usePasswordPrompt(){
     */
     async function show(){
         if(showPrompt === null)
-            throw new Error("The component that showApiKeyPrompt was called from is not a child of ApiKeyPromptProvider");
+            throw new Error("usePasswordPrompt was used in a component that is not a child of ApiKeyPromptProvider");
         return await showPrompt();
     }
 
