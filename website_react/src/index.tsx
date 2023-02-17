@@ -6,7 +6,7 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 
 // Scrollar till top varje gång url ändras.
 // React-router-dom behåller annars scrollpositionen mellan sidor
-export default function RouteScrollPositionTop() {
+const RouteScrollPositionTop = () => {
     const { pathname } = useLocation();
     useLayoutEffect(() => {
     // behaviour: auto = instant
@@ -15,6 +15,7 @@ export default function RouteScrollPositionTop() {
     }, [pathname]);
     return null;
 }
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

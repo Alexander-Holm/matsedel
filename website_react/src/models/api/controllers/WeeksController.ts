@@ -14,26 +14,44 @@ export class WeeksController extends Controller{
         weeks.reverse();
         return weeks;
     }
-    async add(name: string){
+    async add(name: string, apiKey: string){
         const method = "POST";
-        const url = this._apiUrl + "?name=" + name;
-        const res = await fetch(url, {method});
-        const data = await res.json() as WeekDto;
+        const url = this._apiUrl;
+        const options = { 
+            method, 
+            body: JSON.stringify(name),
+            headers: { 
+                "content-type": "application/json",
+                "api-key": apiKey
+            }
+        };
+        const resposne = await fetch(url, options);
+        this.validateResponse(resposne);
+        const data = await resposne.json() as WeekDto;
         const newWeek = new Week(data);
         return newWeek;
     }
-    async delete(id: number){
+    async delete(id: number, apiKey: string){
         const method = "DELETE";
-        await fetch(this._apiUrl + id, {method});
+        const options = { 
+            method,
+            headers: { "api-key": apiKey }
+        };
+        const response = await fetch(this._apiUrl + id, options);
+        this.validateResponse(response);
     }    
-    async rename(id: number, newName: string){
+    async rename(id: number, newName: string, apiKey: string){
         const method = "PUT";
         const payload = { id, name: newName};
         const options = { 
             method, 
             body: JSON.stringify(payload),
-            headers: { "content-type": "application/json" }
+            headers: { 
+                "content-type": "application/json",
+                "api-key": apiKey
+            }
         };
-        await fetch(this._apiUrl + id, options);
+        const response = await fetch(this._apiUrl + id, options);
+        this.validateResponse(response);
     }
 }

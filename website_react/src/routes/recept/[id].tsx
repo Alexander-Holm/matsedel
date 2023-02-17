@@ -6,19 +6,28 @@ import { ReactComponent as Edit} from "../../icons/edit.svg";
 import { ReactComponent as Delete} from "../../icons/delete.svg";
 import { Api } from "../../models/api/Api";
 import "./recept.css"
+import { usePasswordPrompt } from "../../components/PasswordPrompt";
 
 export default function Id(){    
     const navigate = useNavigate();
+    const passwordPrompt = usePasswordPrompt();
     const recipe = useLocation().state;
-    const domain = new URL(recipe.url).hostname; 
-    // TODO: hämta recept om det inte skickas som state med <Link>
-    //const { id } = useParams();
+    const domain = new URL(recipe.url).hostname;
 
     async function clickDelete(){
+        let apiKey = Api.key.get();
+        apiKey ??= await passwordPrompt.show();
+        if(apiKey === null) return;
+
         const confirmDelete = window.confirm("Vill du ta bort det här receptet?");
         if(confirmDelete){
-            await Api.recipes.delete(recipe.id);
-            navigate("/");
+            try{
+                await Api.recipes.delete(recipe.id, apiKey);
+                navigate("/");
+            }
+            catch(error){
+                Api.handleErrors(error, clickDelete);
+            }
         }
     }
 

@@ -4,6 +4,9 @@
     // https://www.elephantsql.com/docs/dotnet.html
     public static class ElephantSql
     {
+        // Namnet på environment variable eller Visual Studio User Secret som
+        // innehåller url/connectionstring till databasen hos ElephantSQL
+        public const string EnvironmentVariable = "ElephantSql";
         public static string ConvertToConnectionString(string uriString)
         {
             var uri = new Uri(uriString);

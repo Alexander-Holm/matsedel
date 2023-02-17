@@ -6,6 +6,7 @@ import RecipeCard from "./RecipeCard";
 import styles from "./WeekCard.module.css";
 import { ReactComponent as Edit } from "../icons/edit.svg";
 import { ReactComponent as Delete } from "../icons/delete.svg";
+import { usePasswordPrompt } from "./PasswordPrompt";
 
 interface props{
     id: number,
@@ -21,10 +22,10 @@ interface props{
 export default function WeekCard( props: props ){
     // Måste använda destructuring för dependency arrays i useEffect och useCallback
     const { loadPreviews, onPreviewsLoaded } = props;
-
     const [name, setname] = useState(props.name);
     // days innehåller recepten
     const [days, setDays] = useState(props.days);
+    const passwordPrompt = usePasswordPrompt();
 
     const fetchPreviews = useCallback( async () => {
         const updatedDays = [...days];
@@ -47,14 +48,32 @@ export default function WeekCard( props: props ){
             fetchPreviews();
     }, [loadPreviews, fetchPreviews])
 
-    async function editWeek(){
-        const newName = prompt("Nytt namn", name);
-        if(newName != null){
-            await Api.weeks.rename(props.id, newName);
+
+    async function editWeek(presetName: string = name){
+        let apiKey = Api.key.get();
+        apiKey ??= await passwordPrompt.show();
+        if(apiKey === null) return;
+
+        const newName = window.prompt("Nytt namn", presetName);
+        if(newName === null) return;
+
+        try{
+            await Api.weeks.rename(props.id, newName, apiKey);
             setname(newName);
         }
+        catch(error){
+            // Sätter presetName till input-namnet för att man inte ska behöva
+            // skriva det nya namnet igen vid fel lösenord.
+            const onRetry = () => editWeek(newName);
+            Api.handleErrors(error, onRetry);
+        }
     }
+
     async function deleteWeek(){
+        let apiKey = Api.key.get();
+        apiKey ??= await passwordPrompt.show();
+        if(apiKey === null) return;
+        
         let shouldDelete = true;
         // Måste bekräfta för att ta bort om veckan har recept
         if(props.days.length > 0){
@@ -64,17 +83,23 @@ export default function WeekCard( props: props ){
             shouldDelete = window.confirm(message);
         }
         if(shouldDelete) {
-            await Api.weeks.delete(props.id);
-            props.onDelete(props.id);
+            try{
+                await Api.weeks.delete(props.id, apiKey);
+                props.onDelete(props.id);
+            }
+            catch(error){
+                Api.handleErrors(error, deleteWeek);
+            }
         }
     }
 
     return(
+        <>
         <article className={styles.weekCard} style={{animationDelay: props.animationDelayMs + "ms"}}>
 
             <header className={styles.weekHeader}>
                 <h2>Vecka {name}</h2>
-                <button className={styles.edit} onClick={editWeek}><Edit/></button>
+                <button className={styles.edit} onClick={() => editWeek()}><Edit/></button>
                 <button className={styles.delete} onClick={deleteWeek}><Delete/></button>
             </header>
 
@@ -103,5 +128,6 @@ export default function WeekCard( props: props ){
             </div>
 
         </article>
+        </>
     )
 }

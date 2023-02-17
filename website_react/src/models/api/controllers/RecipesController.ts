@@ -8,27 +8,40 @@ export class RecipesController extends Controller{
         const data = await res.json() as RecipeDto;
         return new Recipe(data);
     }
-    async add(recipeDto: RecipeDto){
+    async add(recipeDto: RecipeDto, apiKey: string){
         const method = "POST";
         const options = {
             method,
             body: JSON.stringify(recipeDto),
-            headers: { "content-type": "application/json" }
+            headers: { 
+                "content-type": "application/json",
+                "api-key": apiKey
+            }
         }
-        await fetch(this._apiUrl, options);
+        const response = await fetch(this._apiUrl, options);
+        this.validateResponse(response);
     }
-    async delete(id: number){
+    async delete(id: number, apiKey: string){
         const method = "DELETE";
-        await fetch(this._apiUrl + id, {method});
+        const options = {
+            method,
+            headers: { "api-key": apiKey }
+        }
+        const response = await fetch(this._apiUrl + id, options);
+        this.validateResponse(response);
     }
-    async update(recipe: RecipeDto){
+    async update(recipe: RecipeDto, apiKey: string){
         const method = "PUT";
         const url = this._apiUrl + recipe.id;
         const options = {
             method,
             body: JSON.stringify(recipe),
-            headers: { "content-type": "application/json" }
+            headers: { 
+                "content-type": "application/json",
+                "api-key": apiKey
+            }
         }
-        await fetch(url, options);
+        const response = await fetch(url, options);
+        this.validateResponse(response);
     }
 }
