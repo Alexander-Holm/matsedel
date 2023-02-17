@@ -52,13 +52,19 @@ export function PasswordPromptProvider(props: PropsWithChildren){
             {/* Öppnar och stänger prompt genom att sätta promptCallback */}
             { promptCallback !== null &&
                 <div id="modal-container">
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="password-input">Ange lösenord</label>
-                        <input id="password-input" type="password" ref={passwordInput} autoFocus required/>
-                        <label htmlFor="remember-input">Kom ihåg</label>
-                        <input id="remember-input" type="checkbox" ref={checkbox} />
-                        <button type="button" onClick={handleCancel}>Avbryt</button>
-                        <button type="submit">Spara</button>
+                    <form onSubmit={handleSubmit} id="password-prompt">
+                        <div className="input-group">
+                            <label htmlFor="password-input">Ange lösenord</label>
+                            <input id="password-input" type="password" ref={passwordInput} autoFocus required/>
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="remember-input">Kom ihåg</label>
+                            <input id="remember-input" type="checkbox" ref={checkbox} />
+                        </div>
+                        <div className="buttons">
+                            <button type="submit" className="button-primary">Spara</button>
+                            <button type="button" className="button-secondary" onClick={handleCancel}>Avbryt</button>
+                        </div>
                     </form>
                 </div>
             }
