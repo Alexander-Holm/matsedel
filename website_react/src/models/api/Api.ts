@@ -23,8 +23,9 @@ function getApiKey(){
     key ??= localStorage.getItem(storageVariable);
     return key; // null om key inte finns
 }
+// OBS!
 // Använder local- och sessionstorage för att det är enklast, men de är inte säkra mot XSS.
-// Det är ok eftersom det inte är möjligt att utföra XSS utan ApiKey eftersom 
+// Det är ok eftersom det inte är möjligt att utföra XSS utan ApiKey då 
 // den behövs för att lägga till eget innehåll på sidan.
 // Byt ut mot JWT och cookie med HttpOnly ifall användare ska ha olika lösenord. 
 function setApiKey(key: string, remember: boolean){
@@ -40,7 +41,7 @@ function clearApiKey(){
 
 function handleApiErrors(error: unknown, onRetry: () => void){
     if(error instanceof Error){
-        // Fel ApiKey
+        // Fel ApiKey, 401 = unauthorized
         if(error.cause = 401){
             clearApiKey();
             const retry = window.confirm("Fel lösenord!\nFörsök igen?");
