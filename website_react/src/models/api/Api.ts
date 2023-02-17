@@ -42,7 +42,7 @@ function clearApiKey(){
 function handleApiErrors(error: unknown, onRetry: () => void){
     if(error instanceof Error){
         // Fel ApiKey, 401 = unauthorized
-        if(error.cause = 401){
+        if(error.cause === 401){
             clearApiKey();
             const retry = window.confirm("Fel lösenord!\nFörsök igen?");
             if(retry) onRetry();
