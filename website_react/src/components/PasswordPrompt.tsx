@@ -1,4 +1,4 @@
-import { createContext, FormEvent, PropsWithChildren, useContext, useMemo, useRef, useState } from "react";
+import { createContext, FormEvent, PropsWithChildren, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { Api } from "../models/api/Api";
 import "./PasswordPrompt.css";
 
@@ -23,7 +23,9 @@ export function PasswordPromptProvider(props: PropsWithChildren){
     const passwordInput = useRef<HTMLInputElement>(null);
     const checkbox = useRef<HTMLInputElement>(null);
 
-    function showPrompt(){
+    // Funktionen är value för context.
+    // useCallback måste användas för att förhindra onödiga rerenders.
+    const showPrompt = useCallback(() => {
         // Ett Promise som är pending tills resolve anropas manuellt när prompt stängs
         return new Promise<string | null>(resolve => {
             // Spara resolve i state för att kunna anropa senare.
@@ -31,7 +33,7 @@ export function PasswordPromptProvider(props: PropsWithChildren){
             // fungerar inte med setState(resolve).
             setPromptCallback(() => resolve);
         })
-    }
+    }, [])
 
     function handleSubmit(event: FormEvent){
         event.preventDefault();
@@ -69,7 +71,7 @@ export function PasswordPromptProvider(props: PropsWithChildren){
                 </div>
             }
 
-            {props.children}            
+            {props.children}
         </Context.Provider>
     )
 }
