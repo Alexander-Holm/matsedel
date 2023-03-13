@@ -1,4 +1,4 @@
-import { createContext, FormEvent, PropsWithChildren, useContext, useRef, useState } from "react";
+import { createContext, FormEvent, PropsWithChildren, useContext, useMemo, useRef, useState } from "react";
 import { Api } from "../models/api/Api";
 import "./PasswordPrompt.css";
 
@@ -85,17 +85,22 @@ export function PasswordPromptProvider(props: PropsWithChildren){
 */
 export function usePasswordPrompt(){
     const showPrompt = useContext(Context);    
-    /**
-        Shows an input prompt that can be awaited.
-        @return
-        Returns a promise that resolves when the prompt is closed or submitted. 
-        Resolved value is the key if submitted or null if cancelled.
-    */
-    async function show(){
-        if(showPrompt === null)
-            throw new Error("usePasswordPrompt was used in a component that is not a child of ApiKeyPromptProvider");
-        return await showPrompt();
-    }
+    
+    const passwordPrompt = useMemo(() => {
+        /**
+            Shows an input prompt that can be awaited.
+            @return
+            Returns a promise that resolves when the prompt is closed or submitted. 
+            Resolved value is the key if submitted or null if cancelled.
+        */
+        async function show(){
+            if(showPrompt === null)
+                throw new Error("usePasswordPrompt was used in a component that is not a child of ApiKeyPromptProvider");
+            return await showPrompt();
+        }
 
-    return { show };
+        return { show } 
+    }, [showPrompt])
+
+    return passwordPrompt;
 }
