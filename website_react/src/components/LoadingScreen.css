@@ -14,5 +14,5 @@
 }
 #loadingScreen h2{
     font-weight: 400;
-    animation: "scale" 400ms var(--easing-underdamped) forwards;
+    animation: scale 400ms var(--easing-underdamped) forwards;
 }

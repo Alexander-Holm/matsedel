@@ -28,7 +28,7 @@
 #header-slot{
     grid-column: 3;
     margin-left: 3rem;
-    animation: "slide" 300ms var(--easing-cubic-out);
+    animation: slide 300ms var(--easing-cubic-out);
 }
 @keyframes slide {
     from{ 
