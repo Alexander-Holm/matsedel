@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Api } from "../models/api/Api";
 import { Day, Days } from "../models/Week"
 import RecipeCard from "./RecipeCard";
-import styles from "./WeekCard.module.css";
+import "./WeekCard.css";
 import { ReactComponent as Edit } from "../icons/edit.svg";
 import { ReactComponent as Delete } from "../icons/delete.svg";
 import { usePasswordPrompt } from "./PasswordPrompt";
@@ -95,34 +95,34 @@ export default function WeekCard( props: props ){
 
     return(
         <>
-        <article className={styles.weekCard} style={{animationDelay: props.animationDelayMs + "ms"}}>
+        <article className="weekCard" style={{animationDelay: props.animationDelayMs + "ms"}}>
 
-            <header className={styles.weekHeader}>
+            <header className="weekHeader">
                 <h2>Vecka {name}</h2>
-                <button className={styles.edit} onClick={() => editWeek()}><Edit/></button>
-                <button className={styles.delete} onClick={deleteWeek}><Delete/></button>
+                <button className="edit" onClick={() => editWeek()}><Edit/></button>
+                <button className="delete" onClick={deleteWeek}><Delete/></button>
             </header>
 
-            <div className={styles.weekContent}>
+            <div className="weekContent">
                 {days.map(day => (
-                    <div className={styles.day} key={day.key}>
+                    <div className="day" key={day.key}>
 
-                        <div className={styles.dayHeader}>
-                            <span className={styles.decoration}>
-                                <span className={styles.dot} />
+                        <div className="dayHeader">
+                            <span className="decoration">
+                                <span className="dot" />
                             </span>
                             {/* Namn på dagen */}
                             <h3>{Days[day.key]}</h3>
                         </div>
 
-                        <div className={styles.dayRecipes}>
+                        <div className="dayRecipes">
                             {day.recipes.map(recipe => (
                                 <RecipeCard key={recipe.id} recipe={recipe} />
                             ))}
                         </div>
                     </div>
                 ))}
-                <Link className={styles.addRecipe + " button-primary"}  to={`recept/ny?vecka-id=${props.id}`}>
+                <Link className="addRecipe button-primary"  to={`recept/ny?vecka-id=${props.id}`}>
                     Lägg till recept
                 </Link>
             </div>

@@ -1,3 +1,5 @@
+/* Namnen är camelCase från när filen var en CSS-module */
+
 .weekCard{
     margin: 100px 30px;
     margin-top: 0;
@@ -7,20 +9,23 @@
     overflow: hidden;
     /* För att inte visas när animation har delay */
     transform: scale(0);
-    animation: 400ms "scale" var(--easing-cubic-out) forwards;
+    animation-name: scale;
+    animation-duration: 400ms;
+    animation-timing-function: var(--easing-cubic-out);
+    animation-fill-mode: forwards;
 }
 
 
 /* Week header */
 
-.weekHeader{
+.weekCard .weekHeader{
     display: flex;
     align-items: center;
     background-color: var(--black);
     color: white;
     padding: 10px 20px;
 }
-.edit, .delete{
+.weekCard .edit, .weekCard .delete{
     display: block;
     height: 2rem;
     min-width: 2rem;
@@ -29,11 +34,11 @@
     stroke: currentColor; 
     border: 0;
 }
-.edit{
+.weekCard .edit{
     margin: 0 40px;
     stroke-width: 1.5;
 }
-.delete{
+.weekCard .delete{
     margin-left: auto;
     stroke-width: 2;
     padding: 2px;
@@ -42,17 +47,21 @@
 
 /* Week content */
 
-.weekContent{
+.weekCard .weekContent{
     display: grid;
     grid-template-columns: auto 1fr;
     column-gap: 20px;
     row-gap: 30px;
     padding: 30px;
 }
-.day{
+.weekCard .addRecipe{
+    grid-column: 1/3;
+    margin: 30px auto;
+}
+.weekCard .day{
     display: contents;
 }
-.dayRecipes{
+.weekCard .dayRecipes{
     grid-column: 2;
     display: flex;
     flex-wrap: wrap;
@@ -64,7 +73,7 @@
     trots att båda bara har en kolumn med recept.
 */
 @media (max-width: 900px) {
-    .dayRecipes{
+    .weekCard .dayRecipes{
         flex-direction: column;
     }
 }
@@ -72,12 +81,12 @@
 
 /* Day header */
 
-.dayHeader{
+.weekCard .dayHeader{
     grid-column: 1;
     display: flex;
     margin-left: 10px;
 }
-.decoration{
+.weekCard .decoration{
     display: block;
     height: auto;
     width: 2px;
@@ -88,19 +97,11 @@
     /* Rundar slutet av linjen */
     border-radius: 20px;
 }
-.decoration .dot{
+.weekCard .decoration .dot{
     display: block;
     width: 10px; height: 10px;
     position: relative;
     left: -4px;
     border-radius: inherit;
     background-color: inherit;
-}
-
-
-/*  */
-
-.addRecipe{
-    grid-column: 1/3;
-    margin: 30px auto;
 }
