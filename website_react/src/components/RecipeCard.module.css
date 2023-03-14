@@ -76,7 +76,10 @@
     stroke: var(--black);
     stroke-width: 1.5;
 }
-.notes span{
+.notes > svg{
+    flex-shrink: 0;
+}
+.notes > span{
     margin-left: 4px;
     overflow: hidden;
     white-space: nowrap;
