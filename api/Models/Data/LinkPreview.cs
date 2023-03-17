@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using System.Web;
 
 namespace api.Models
 {
@@ -25,7 +26,8 @@ namespace api.Models
             string? title = doc.DocumentNode.Descendants("h1").FirstOrDefault()?.InnerText;
             // Fallbacks
             title ??= GetOpenGraphProperty("title", doc);
-            title ??= doc.DocumentNode.SelectSingleNode("//title").InnerText;
+            title ??= doc.DocumentNode.SelectSingleNode("//title")?.InnerText;            
+            title = HttpUtility.HtmlDecode(title); // För tecken som å, ä, ö
             return title;
         }
         private string? GetDescription(HtmlDocument doc)
@@ -37,6 +39,7 @@ namespace api.Models
                 HtmlNode node = doc.DocumentNode.SelectSingleNode("//meta[@name='description']");
                 description = node?.GetAttributeValue("content", "");
             }
+            description = HttpUtility.HtmlDecode(description); // För tecken som å, ä, ö
             return description;
         }
         private string? GetImage(HtmlDocument doc)
